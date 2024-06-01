@@ -1,25 +1,30 @@
 import { NativeStackNavigationProp, createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import Home from './screens/Home/Home'
-import DetailsPage from './screens/Details/Detail'
+import Login from './screens/Login/Login'
+import Register from './screens/Register/RegisterForm'
+import Menu from './screens/Menu/Menu'
+
 
 const Stack = createNativeStackNavigator()
 
-   // quando nao tem props/parametros sendo passada na rota
-   type StackNavigation = {
+// quando nao tem props/parametros sendo passada na rota
+type StackNavigation = {
+    Login: undefined,
+    RegisterForm: undefined,
     Home: undefined, // aqui pode ser passado name, age caso os dados sejam enviados a outra pagina
-    DetailsPage: undefined,
 }
 
 export type StackTypes = NativeStackNavigationProp<StackNavigation>  // 
+
 
 export default function StackComponent() {
 
     return (
         <>
-            <Stack.Navigator initialRouteName='Home'>
-                <Stack.Screen name='Home' component={Home}/>
-                <Stack.Screen name='DetailsPage' component={DetailsPage} />
+            <Stack.Navigator initialRouteName='Login'>
+                <Stack.Screen options={{ title: 'Entrar' }} name='Login' component={Login} />
+                <Stack.Screen name='Menu' component={Menu} />
+                <Stack.Screen options={{ title: 'Registre-se' }} name='RegisterForm' component={Register} />
             </Stack.Navigator>
         </>
     )

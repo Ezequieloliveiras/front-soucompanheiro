@@ -7,6 +7,7 @@ import PeopleAdd from '../../../assets/PeopleAdd.svg'
 
 export default function Home() {
     const navigation = useNavigation<StackTypes>()
+
     return (
         <View style={styles.container}>
 
@@ -15,7 +16,7 @@ export default function Home() {
             <PeopleGroup width={80} height={80} style={{marginTop:30}}/>
             <TouchableOpacity
                 style={styles.button}
-                onPress={() => navigation.navigate("DetailsPage")}
+                onPress={() => navigation.navigate("Menu")}
             >
                 <Text style={styles.buttonText}>Procurar um companheiro</Text>
             </TouchableOpacity>
@@ -23,7 +24,7 @@ export default function Home() {
             <PeopleAdd width={80} height={80} style={{marginTop:30}}/>
             <TouchableOpacity
                 style={styles.button}
-                onPress={() => navigation.navigate("DetailsPage")}
+                onPress={() => navigation.navigate("Menu")}
             >
                 <Text style={styles.buttonText}>Ser um companheiro</Text>
             </TouchableOpacity>
