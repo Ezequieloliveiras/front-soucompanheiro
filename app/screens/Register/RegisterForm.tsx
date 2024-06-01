@@ -39,11 +39,22 @@ const RegisterForm = () => {
   const handleSubmit = async (values: FormValues) => {
     try {
       const res = await axios.post('http://192.168.0.4:8002/create-user', values)
-      console.log(res.data)
-      Alert.alert('Success', 'Formulário enviado com sucesso!')
+      if (res.data.success) {
+        Alert.alert('Successo', res.data.message)
+      } else {
+        const alert = Alert.alert('Error', res.data.message)
+      }
     } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          // Erro de resposta do servidor
+          Alert.alert('Error', error.response.data.message)
+        } else if (error.request) {
+          // A solicitação foi feita, mas nenhuma resposta foi recebida
+          Alert.alert('Error', 'Erro ao enviar formulário. Por favor, tente novamente mais tarde.')
+        }
+      }
       console.error(error)
-      Alert.alert('Error', 'Erro ao enviar formulário. Por favor, tente novamente mais tarde.')
     }
   }
 
