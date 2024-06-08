@@ -1,23 +1,46 @@
 import React, { useState } from 'react'
 import { useNavigation } from "@react-navigation/native"
 import { StackTypes } from "@/app"
+import Client from '../../api/client'
+
 import {
     View,
     Text,
     TextInput,
     Button,
     StyleSheet,
-    Alert,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert
 } from 'react-native'
+
+
 
 const LoginForm = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         // Aqui você pode adicionar lógica para enviar o formulário
-        Alert.alert('Login', `Email: ${email}\nPassword: ${password}`)
+        try {
+            const response = await Client.post('http://192.168.0.4:8002/sign-in', {
+
+                email: email,
+                password: password
+
+            })
+
+            if (response.data.success) {
+                setEmail(''),
+                    setPassword('')
+            }
+
+            console.log(response.data)
+
+        } catch (error) {
+            Alert.alert('Error', 'Falha no login. Por favor, tente novamente.')
+            console.error(error)
+        }
+
     }
 
     const navigation = useNavigation<StackTypes>() // colocar o stacktypes da tipagem
@@ -51,6 +74,7 @@ const LoginForm = () => {
 
 
         </View>
+
     )
 }
 

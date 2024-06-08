@@ -12,14 +12,14 @@ import {
   GestureResponderEvent
 } from 'react-native'
 
-interface FormValues {
+interface FormValues { // Define uma interface FormValues para os valores do formulário.
   fullname: string,
   email: string,
   password: string,
   confirmPassword: string,
 }
 
-const initialValues: FormValues = {
+const initialValues: FormValues = { // Define initialValues com valores vazios para inicializar o formulário.
   fullname: '',
   email: '',
   password: '',
@@ -27,8 +27,8 @@ const initialValues: FormValues = {
 }
 
 const validationSchema = yup.object().shape({
-  email: yup.string().email('Digite um e-mail válido').required('Campo obrigatório'),
-  password: yup.string().required('Campo obrigatório'),
+  email: yup.string().email('Digite um e-mail válido').required('Campo obrigatório'), // Valida que email é um string de e-mail válido e obrigatório.
+  password: yup.string().required('Campo obrigatório'),// Valida que password e confirmPassword são strings obrigatórias.
   confirmPassword: yup.string().required('Campo obrigatório'),
 })
 
@@ -42,7 +42,7 @@ const RegisterForm = () => {
       if (res.data.success) {
         Alert.alert('Successo', res.data.message)
       } else {
-        const alert = Alert.alert('Error', res.data.message)
+        Alert.alert('Error', res.data.message)
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
