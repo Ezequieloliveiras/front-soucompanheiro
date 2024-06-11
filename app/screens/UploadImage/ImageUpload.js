@@ -2,41 +2,71 @@ import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import * as ImagePicker from 'expo-image-picker';
+import { Image } from "react-native";
+import client from "@/app/api/client";
+import axios from "axios";
+
 
 const ImageUpload = () => {
 
     const [image, setImage] = useState(null);
 
     const pickImage = async () => {
-      // No permissions request is necessary for launching the image library
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
-      });
-  
-      console.log(result);
-  
-      if (!result.canceled) {
-        setImage(result.assets[0].uri);
-      }
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+
+        console.log(result);
+
+        if (!result.canceled) {
+            setImage(result.assets[0].uri);
+        }
     };
 
+    const UploadProfileImage = async () => {
+        const formData = new FormData()
+        formData.append('profile', {
+         
+            uri: image,
+            name: 'profile.jpg',
+            type: 'image/jpeg'
+        })
+
+        try {
+            const res = await client.post('/upload-profile', formData, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjYyMzY3MjNiMDY1Yzg0OTliMTJlNDciLCJpYXQiOjE3MTgwNjE4NzIsImV4cCI6MTcxODE0ODI3Mn0.xDH1-YGQSzib2_Sx4NGZxei6MxqcRHRCjNDIehxOt8s'
+                }
+            })
+            console.log(res.data)
+        } catch (error) {
+            console.log(error.message)
+        }
+
+    }
 
     return (
         < View style={styles.container}>
             <View >
                 <TouchableOpacity style={styles.uploadBtn} onPress={pickImage}>
-                    <Text style={styles.textImage}>Enviar Imagem</Text>
+                    {image ? <Image source={{ uri: image }} style={{ width: '100%', height: '100%' }} /> : <Text style={styles.textImage} onPress={UploadProfileImage}>Enviar Imagem</Text>}
                     {image && <Image source={{ uri: image }} style={styles.image} />}
+
                 </TouchableOpacity>
                 <Text style={styles.textSkip}>Pular</Text>
 
-                { image ? (
-                    <Text style={styles.textNext}>Enviar</Text>
-
-
+                {image ? (
+                    <Text
+                        onPress={UploadProfileImage}
+                        style={styles.textNext}>
+                        Enviar
+                    </Text>
                 ) : null
 
                 }
@@ -63,7 +93,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderStyle: 'dashed',
-        borderWidth: 1
+        borderWidth: 1,
+        overflow: 'hidden'
     },
     textImage: {
         fontSize: 22,
@@ -75,8 +106,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         padding: 15,
         fontSize: 16,
-        fontWeight:'bold',
-        textTransform:'uppercase',
+        fontWeight: 'bold',
+        textTransform: 'uppercase',
         letterSpacing: 2,
         opacity: 0.5
     },
@@ -84,14 +115,30 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         padding: 15,
         fontSize: 16,
-        fontWeight:'bold',
-        textTransform:'uppercase',
+        fontWeight: 'bold',
+        textTransform: 'uppercase',
         letterSpacing: 2,
         opacity: 0.5,
         borderRadius: 8,
         backgroundColor: 'green',
         color: '#fff',
-    }
+    },
+    button: {
+        width: 250,
+        height: 60,
+        padding: 10,
+        textAlign: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 5,
+        marginTop: 20,
+        backgroundColor: '#0094FF',
+        color: '#fff'
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 16,
+    },
 
 })
 

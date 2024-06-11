@@ -32,13 +32,15 @@ const validationSchema = yup.object().shape({
   confirmPassword: yup.string().required('Campo obrigatório'),
 })
 
+import client from '@/app/api/client'
+
 const RegisterForm = () => {
   const [password, setPassword] = useState('')
   const handleChangePassword = (text: string) => setPassword(text)
 
   const handleSubmit = async (values: FormValues) => {
     try {
-      const res = await axios.post('http://192.168.0.4:8002/create-user', values)
+      const res = await client.post('/create-user', values)
       if (res.data.success) {
         Alert.alert('Successo', res.data.message)
       } else {
