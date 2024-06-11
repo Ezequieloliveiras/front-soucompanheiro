@@ -16,7 +16,7 @@ export default function Home() {
             <PeopleGroup width={80} height={80} style={{marginTop:30}}/>
             <TouchableOpacity
                 style={styles.button}
-                onPress={() => navigation.navigate("Menu")}
+                onPress={() => navigation.navigate("List")}
             >
                 <Text style={styles.buttonText}>Procurar um companheiro</Text>
             </TouchableOpacity>

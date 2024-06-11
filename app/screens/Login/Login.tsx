@@ -12,10 +12,13 @@ import {
     TouchableOpacity,
     Alert
 } from 'react-native'
+import { StackActions } from '@react-navigation/native'
 
+interface LoginFormProps {
+    navigation: StackTypes
+}
 
-
-const LoginForm = () => {
+const LoginForm: React.FC<LoginFormProps> = (props) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -32,6 +35,11 @@ const LoginForm = () => {
             if (response.data.success) {
                 setEmail(''),
                     setPassword('')
+
+                props.navigation.dispatch(
+                    StackActions.replace('Menu')
+                )
+
             }
 
             console.log(response.data)

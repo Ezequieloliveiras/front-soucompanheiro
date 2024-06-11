@@ -4,11 +4,13 @@ import { useState } from "react"
 import * as ImagePicker from 'expo-image-picker'
 import { Image } from "react-native"
 import client from "@/app/api/client"
+import { StackActions } from '@react-navigation/native'
 
-const ImageUpload = () => {
+const ImageUpload = (props) => {
 
     const [image, setImage] = useState(null)
     const [progress, setProgress] = useState(0)
+    const { token } = props.route.params
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -26,10 +28,10 @@ const ImageUpload = () => {
         }
     }
 
-    const UploadProfileImage = async () => {
+    const UploadProfileImage = async (navigation) => {
         const formData = new FormData()
         formData.append('profile', {
-         
+
             uri: image,
             name: 'profile.jpg',
             type: 'image/jpeg'
@@ -40,10 +42,16 @@ const ImageUpload = () => {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'multipart/form-data',
-                    'Authorization': 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjYyMzY3MjNiMDY1Yzg0OTliMTJlNDciLCJpYXQiOjE3MTgwNjE4NzIsImV4cCI6MTcxODE0ODI3Mn0.xDH1-YGQSzib2_Sx4NGZxei6MxqcRHRCjNDIehxOt8s'
+                    'Authorization': `JWT ${token}`
                 },
-                onUploadProgress: ({loaded, total}) => setProgress(loaded / total)
+                onUploadProgress: ({ loaded, total }) => setProgress(loaded / total)
             })
+
+            if (res.data.success) {
+                props.navigation.dispatch(
+                    StackActions.replace('Menu')
+                )
+            }
             console.log(res.data)
         } catch (error) {
             console.log(error.message)
