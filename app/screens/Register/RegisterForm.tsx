@@ -1,6 +1,6 @@
 import axios from 'axios'
 import * as yup from 'yup'
-import React, { useState } from 'react'
+import React from 'react'
 import { Formik } from 'formik'
 import {
   View,
@@ -9,17 +9,21 @@ import {
   Button,
   StyleSheet,
   Alert,
-  GestureResponderEvent
+  GestureResponderEvent,
 } from 'react-native'
+import { StackActions, useNavigation } from '@react-navigation/native'
+import client from '@/app/api/client'
+import { StackTypes } from '@/app/' // Verifique o caminho para StackTypes
 
-interface FormValues { // Define uma interface FormValues para os valores do formulário.
-  fullname: string,
-  email: string,
-  password: string,
-  confirmPassword: string,
+
+interface FormValues {
+  fullname: string
+  email: string
+  password: string
+  confirmPassword: string
 }
 
-const initialValues: FormValues = { // Define initialValues com valores vazios para inicializar o formulário.
+const initialValues: FormValues = {
   fullname: '',
   email: '',
   password: '',
@@ -27,36 +31,48 @@ const initialValues: FormValues = { // Define initialValues com valores vazios p
 }
 
 const validationSchema = yup.object().shape({
-  email: yup.string().email('Digite um e-mail válido').required('Campo obrigatório'), // Valida que email é um string de e-mail válido e obrigatório.
-  password: yup.string().required('Campo obrigatório'),// Valida que password e confirmPassword são strings obrigatórias.
-  confirmPassword: yup.string().required('Campo obrigatório'),
+  fullname: yup.string().required('Campo obrigatório'),
+  email: yup.string().email('Digite um e-mail válido').required('Campo obrigatório'),
+  password: yup.string().required('Campo obrigatório'),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref('password'), undefined], 'As senhas devem corresponder')
+    .required('Campo obrigatório'),
 })
 
-import client from '@/app/api/client'
-
-const RegisterForm = () => {
-  const [password, setPassword] = useState('')
-  const handleChangePassword = (text: string) => setPassword(text)
+const RegisterForm: React.FC = () => {
+  const navigation = useNavigation<StackTypes>()
 
   const handleSubmit = async (values: FormValues) => {
     try {
       const res = await client.post('/create-user', values)
       if (res.data.success) {
-        Alert.alert('Successo', res.data.message)
+        const signInRes = await client.post('/sign-in', {email: values.email, password: values.password })
+
+        if(signInRes.data.success) {
+          navigation.dispatch(
+            StackActions.replace('Upload', {
+              token: signInRes.data.token,
+            })
+          )
+
+        }
+        Alert.alert('Sucesso', res.data.message)
       } else {
-        Alert.alert('Error', res.data.message)
+        Alert.alert('Erro', res.data.message)
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response) {
           // Erro de resposta do servidor
-          Alert.alert('Error', error.response.data.message)
+          Alert.alert('Erro', error.response.data.message)
         } else if (error.request) {
-          // A solicitação foi feita, mas nenhuma resposta foi recebida
-          Alert.alert('Error', 'Erro ao enviar formulário. Por favor, tente novamente mais tarde.')
+          // Nenhuma resposta recebida
+          Alert.alert('Erro', 'Erro ao enviar formulário. Por favor, tente novamente mais tarde.')
         }
+      } else {
+        console.error(error)
       }
-      console.error(error)
     }
   }
 
@@ -67,7 +83,7 @@ const RegisterForm = () => {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
+        {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
           <View>
             <Text style={styles.label}>Nome:</Text>
             <TextInput
@@ -79,7 +95,10 @@ const RegisterForm = () => {
               keyboardType="default"
               autoCapitalize="none"
             />
-            {errors.fullname && <Text style={styles.error}>{errors.fullname}</Text>}
+            {errors.fullname && touched.fullname && (
+              <Text style={styles.error}>{errors.fullname}</Text>
+            )}
+
             <Text style={styles.label}>Email:</Text>
             <TextInput
               style={styles.input}
@@ -90,21 +109,22 @@ const RegisterForm = () => {
               keyboardType="email-address"
               autoCapitalize="none"
             />
-            {errors.email && <Text style={styles.error}>{errors.email}</Text>}
+            {errors.email && touched.email && (
+              <Text style={styles.error}>{errors.email}</Text>
+            )}
 
             <Text style={styles.label}>Senha:</Text>
             <TextInput
               style={styles.input}
               placeholder="Digite uma senha"
-              onChangeText={(text) => {
-                handleChange('password')(text)
-                handleChangePassword(text)
-              }}
+              onChangeText={handleChange('password')}
               onBlur={handleBlur('password')}
-              value={password}
+              value={values.password}
               secureTextEntry
             />
-            {errors.password && <Text style={styles.error}>{errors.password}</Text>}
+            {errors.password && touched.password && (
+              <Text style={styles.error}>{errors.password}</Text>
+            )}
 
             <Text style={styles.label}>Confirme a Senha:</Text>
             <TextInput
@@ -115,9 +135,14 @@ const RegisterForm = () => {
               value={values.confirmPassword}
               secureTextEntry
             />
-            {errors.confirmPassword && <Text style={styles.error}>{errors.confirmPassword}</Text>}
+            {errors.confirmPassword && touched.confirmPassword && (
+              <Text style={styles.error}>{errors.confirmPassword}</Text>
+            )}
 
-            <Button title="Enviar" onPress={(event: GestureResponderEvent) => handleSubmit()} />
+            <Button
+              title="Enviar"
+              onPress={handleSubmit as unknown as (event: GestureResponderEvent) => void}
+            />
           </View>
         )}
       </Formik>

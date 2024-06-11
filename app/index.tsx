@@ -1,8 +1,8 @@
 import { NativeStackNavigationProp, createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import Login from './screens/Login/Login'
-// import Register from './screens/Register/RegisterForm'
-// import Menu from './screens/Menu/Menu'
+ import Register from './screens/Register/RegisterForm'
+import Menu from './screens/Menu/Menu'
 import UploadImage from './screens/UploadImage/ImageUpload'
 
 
@@ -23,11 +23,11 @@ export default function StackComponent() {
 
     return (
         <>
-            <Stack.Navigator initialRouteName='Upload'>
+            <Stack.Navigator initialRouteName='Register'>
                 <Stack.Screen options={{ title: 'Entrar' }} name='Login' component={Login} />
                 <Stack.Screen options={{ title: 'Enviar Imagem' }} name='Upload' component={UploadImage} />
-                {/* <Stack.Screen name='Menu' component={Menu} />
-                <Stack.Screen options={{ title: 'Registre-se' }} name='RegisterForm' component={Register} /> */}
+                 <Stack.Screen name='Menu' component={Menu} />
+                <Stack.Screen options={{ title: 'Registre-se' }} name='RegisterForm' component={Register} /> 
             </Stack.Navigator>
         </>
     )
