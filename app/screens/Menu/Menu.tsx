@@ -5,12 +5,13 @@ import { StackTypes } from "@/app"
 import PeopleGroup from '../../../assets/PeopleGroup.svg'
 import PeopleAdd from '../../../assets/PeopleAdd.svg'
 
+
 export default function Home() {
     const navigation = useNavigation<StackTypes>()
 
     return (
         <View style={styles.container}>
-
+          
             <Text style={styles.text}>Aqui você encontra um companheiro para seu trabalho e também pode ser um companheiro.</Text>
 
             <PeopleGroup width={80} height={80} style={{marginTop:30}}/>
@@ -31,6 +32,13 @@ export default function Home() {
         </View>
     )
 }
+
+
+
+
+
+
+
 
 const styles = StyleSheet.create({
     button: {

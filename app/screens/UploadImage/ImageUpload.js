@@ -1,7 +1,7 @@
+import * as ImagePicker from 'expo-image-picker'
 import React from "react"
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native"
 import { useState } from "react"
-import * as ImagePicker from 'expo-image-picker'
 import { Image } from "react-native"
 import client from "@/app/api/client"
 import { StackActions } from '@react-navigation/native'
