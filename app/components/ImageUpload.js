@@ -5,7 +5,7 @@ import { useState } from "react"
 import { Image } from "react-native"
 import client from "@/app/api/client"
 import { StackActions } from '@react-navigation/native'
-
+import UploadProgress from './UploadProgress'
 const ImageUpload = (props) => {
 
     const [image, setImage] = useState(null)
@@ -59,6 +59,8 @@ const ImageUpload = (props) => {
     }
 
     return (
+        <>
+        
         < View style={styles.container}>
             <View >
                 <TouchableOpacity style={styles.uploadBtn} onPress={pickImage}>
@@ -67,7 +69,7 @@ const ImageUpload = (props) => {
                     {image && <Image source={{ uri: image }} style={styles.image} />}
 
                 </TouchableOpacity>
-                {progress ? <Text>{progress}</Text> : null}
+                {/* {progress ? <Text>{progress}</Text> : null} */}
                 <Text style={styles.textSkip}>Pular</Text>
                 {image ? (
                     <Text
@@ -81,6 +83,10 @@ const ImageUpload = (props) => {
 
             </View>
         </ View>
+        
+        { progress ? <UploadProgress process={progress} /> : null}
+        </>
+       
     )
 
 }

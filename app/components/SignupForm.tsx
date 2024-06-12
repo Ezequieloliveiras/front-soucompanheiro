@@ -8,7 +8,7 @@ import { isValidEmail, isValidObjField, updateError } from '../utils/methods';
 import FormContainer from './FormContainer';
 import FormInput from './FormInput';
 import FormSubmitButton from './FormSubmitButton';
-
+import { useLogin } from '../context/LoginProvider';
 import signIn from '../api/user'
 
 interface UserInfo {
@@ -62,7 +62,10 @@ const SignupForm: React.FC = () => {
   const navigation = useNavigation();
   const [error, setError] = useState<string>('');
 
+  const {setLoginPending} = useLogin()
+
   const signUp = async (values: UserInfo, formikActions: any) => {
+    setLoginPending(true)
     const res = await client.post('/create-user', {
       ...values,
     });
@@ -81,6 +84,8 @@ const SignupForm: React.FC = () => {
 
     formikActions.resetForm();
     formikActions.setSubmitting(false);
+    setLoginPending(false)
+
   };
 
   return (

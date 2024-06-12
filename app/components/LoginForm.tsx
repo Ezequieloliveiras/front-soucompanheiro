@@ -8,6 +8,7 @@ import FormContainer from './FormContainer';
 import FormInput from './FormInput';
 import FormSubmitButton from './FormSubmitButton';
 
+
 // Defina a interface SignInResponse antes de usar
 interface SignInResponse {
   success: boolean;
@@ -28,6 +29,8 @@ const LoginForm: React.FC = () => {
     email: '',
     password: '',
   });
+
+  const {setLoginPending}= useLogin()
 
   const [error, setError] = useState<string>('');
 
@@ -57,6 +60,7 @@ const LoginForm: React.FC = () => {
   };
 
   const submitForm = async () => {
+    setLoginPending(true)
     if (isValidForm()) {
       try {
         const signInRes = await signIn(userInfo.email, userInfo.password);
@@ -73,6 +77,7 @@ const LoginForm: React.FC = () => {
         console.log(error);
       }
     }
+    setLoginPending(false)
   };
   
 

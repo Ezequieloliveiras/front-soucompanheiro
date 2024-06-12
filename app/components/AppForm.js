@@ -11,12 +11,16 @@ import FormHeader from './FormHeader';
 import FormSelectorBtn from './FormSelectorBtn';
 import SignupForm from './SignupForm';
 import LoginForm from './LoginForm';
+import AppLoader from './AppLoader'
+import { useLogin } from '../context/LoginProvider';
 
 const { width } = Dimensions.get('window');
 
 export default function AppForm({ navigation }) {
   const animation = useRef(new Animated.Value(0)).current;
   const scrollView = useRef();
+
+  const { loginPending } = useLogin()
 
   const rightHeaderOpacity = animation.interpolate({
     inputRange: [0, width],
@@ -41,54 +45,58 @@ export default function AppForm({ navigation }) {
   });
 
   return (
-    <View style={{ flex: 1, paddingTop: 120 }}>
-      <View style={{ height: 80 }}>
-        <FormHeader
-          leftHeading='Welcome '
-          rightHeading='Back'
-          subHeading='YouTube Task Manager'
-          rightHeaderOpacity={rightHeaderOpacity}
-          leftHeaderTranslateX={leftHeaderTranslateX}
-          rightHeaderTranslateY={rightHeaderTranslateY}
-        />
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          paddingHorizontal: 20,
-          marginBottom: 20,
-        }}
-      >
-        <FormSelectorBtn
-          style={styles.borderLeft}
-          backgroundColor={loginColorInterpolate}
-          title='Login'
-          onPress={() => scrollView.current.scrollTo({ x: 0 })}
-        />
-        <FormSelectorBtn
-          style={styles.borderRight}
-          backgroundColor={signupColorInterpolate}
-          title='Sign up'
-          onPress={() => scrollView.current.scrollTo({ x: width })}
-        />
-      </View>
-      <ScrollView
-        ref={scrollView}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        scrollEventThrottle={16}
-        onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { x: animation } } }],
-          { useNativeDriver: false }
-        )}
-      >
-        <LoginForm navigation={navigation} />
-        <ScrollView>
-          <SignupForm navigation={navigation} />
+    <>
+
+      <View style={{ flex: 1, paddingTop: 120 }}>
+        <View style={{ height: 80 }}>
+          <FormHeader
+            leftHeading='Welcome '
+            rightHeading='Back'
+            subHeading='YouTube Task Manager'
+            rightHeaderOpacity={rightHeaderOpacity}
+            leftHeaderTranslateX={leftHeaderTranslateX}
+            rightHeaderTranslateY={rightHeaderTranslateY}
+          />
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            paddingHorizontal: 20,
+            marginBottom: 20,
+          }}
+        >
+          <FormSelectorBtn
+            style={styles.borderLeft}
+            backgroundColor={loginColorInterpolate}
+            title='Login'
+            onPress={() => scrollView.current.scrollTo({ x: 0 })}
+          />
+          <FormSelectorBtn
+            style={styles.borderRight}
+            backgroundColor={signupColorInterpolate}
+            title='Sign up'
+            onPress={() => scrollView.current.scrollTo({ x: width })}
+          />
+        </View>
+        <ScrollView
+          ref={scrollView}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          scrollEventThrottle={16}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { x: animation } } }],
+            { useNativeDriver: false }
+          )}
+        >
+          <LoginForm navigation={navigation} />
+          <ScrollView>
+            <SignupForm navigation={navigation} />
+          </ScrollView>
         </ScrollView>
-      </ScrollView>
-    </View>
+      </View>
+      {loginPending ? <AppLoader /> : null}
+    </>
   );
 }
 
