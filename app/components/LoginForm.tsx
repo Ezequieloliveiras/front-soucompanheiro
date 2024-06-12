@@ -1,11 +1,21 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text } from 'react-native';
-import client from '../../api/client';
-import { useLogin } from '../../context/LoginProvider';
-import { isValidEmail, isValidObjField, updateError } from '../../utils/methods';
-import FormContainer from '../../components/FormContainer';
-import FormInput from '../../components/FormInput';
-import FormSubmitButton from '../../components/FormSubmitButton';
+import { View, StyleSheet, Text } from 'react-native';
+import signIn from '../api/user';
+
+import { useLogin } from '../context/LoginProvider';
+import { isValidEmail, isValidObjField, updateError } from '../utils/methods';
+import FormContainer from './FormContainer';
+import FormInput from './FormInput';
+import FormSubmitButton from './FormSubmitButton';
+
+// Defina a interface SignInResponse antes de usar
+interface SignInResponse {
+  success: boolean;
+  data: {
+    token: string;
+    user: UserInfo;
+  };
+}
 
 interface UserInfo {
   email: string;
@@ -14,9 +24,12 @@ interface UserInfo {
 
 const LoginForm: React.FC = () => {
   const { setIsLoggedIn, setProfile } = useLogin();
-  const [userInfo, setUserInfo] = useState<UserInfo>({ email: '', password: '' });
+  const [userInfo, setUserInfo] = useState<UserInfo>({
+    email: '',
+    password: '',
+  });
+
   const [error, setError] = useState<string>('');
-  const [submitting, setSubmitting] = useState<boolean>(false);
 
   const { email, password } = userInfo;
 
@@ -45,24 +58,23 @@ const LoginForm: React.FC = () => {
 
   const submitForm = async () => {
     if (isValidForm()) {
-      setSubmitting(true);
       try {
-        const res = await client.post('/sign-in', { ...userInfo });
-
-        if (res.data.success) {
+        const signInRes = await signIn(userInfo.email, userInfo.password);
+  
+        if (signInRes && signInRes.data.success) {
+          const user = signInRes.data.user; // Ajuste para acessar a propriedade correta
           setUserInfo({ email: '', password: '' });
-          setProfile(res.data.user);
+          setProfile(user); // Ajuste para passar o objeto do usuário diretamente
           setIsLoggedIn(true);
+        } else {
+          updateError('Login failed. Please check your credentials.', setError);
         }
-
-        console.log(res.data);
       } catch (error) {
         console.log(error);
-      } finally {
-        setSubmitting(false);
       }
     }
   };
+  
 
   return (
     <FormContainer>
@@ -86,7 +98,7 @@ const LoginForm: React.FC = () => {
         autoCapitalize='none'
         secureTextEntry
       />
-      <FormSubmitButton onPress={submitForm} title='Login' submitting={submitting} />
+      <FormSubmitButton onPress={submitForm} title='Login' submitting={false} />
     </FormContainer>
   );
 };

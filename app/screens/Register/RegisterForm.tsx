@@ -15,7 +15,6 @@ import { StackActions, useNavigation } from '@react-navigation/native'
 import client from '@/app/api/client'
 import { StackTypes } from '@/app/' // Verifique o caminho para StackTypes
 
-
 interface FormValues {
   fullname: string
   email: string
@@ -40,6 +39,16 @@ const validationSchema = yup.object().shape({
     .required('Campo obrigatório'),
 })
 
+// Função para autenticação
+const signIn = async (email: string, password: string) => {
+  try {
+    const response = await client.post('/sign-in', { email, password })
+    return response
+  } catch (error) {
+    throw error
+  }
+}
+
 const RegisterForm: React.FC = () => {
   const navigation = useNavigation<StackTypes>()
 
@@ -47,9 +56,9 @@ const RegisterForm: React.FC = () => {
     try {
       const res = await client.post('/create-user', values)
       if (res.data.success) {
-        const signInRes = await client.post('/sign-in', {email: values.email, password: values.password })
+        const signInRes = await signIn(values.email, values.password)
 
-        if(signInRes.data.success) {
+        if (signInRes.data.success) {
           navigation.dispatch(
             StackActions.replace('Upload', {
               token: signInRes.data.token,

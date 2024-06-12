@@ -2,8 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import PeopleGroup from '../../../assets/PeopleGroup.svg';
-import PeopleAdd from '../../../assets/PeopleAdd.svg';
+import PeopleGroup from '../../assets/PeopleGroup.svg';
+import PeopleAdd from '../../assets/PeopleAdd.svg';
 
 export default function Home() {
   const navigation = useNavigation();
