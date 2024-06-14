@@ -4,7 +4,7 @@ import AppForm from './components/AppForm'
 import ImageUpload from './components/ImageUpload'
 import UserProfile from './components/UserProfile'
 import DrawerNavigator from './DrawerNaviagtor' // Note: Check spelling of 'Navigator'
-
+import Tasks from './components/Tasks'
 const Stack = createNativeStackNavigator()
 
 const StackNavigator = () => {
@@ -13,6 +13,7 @@ const StackNavigator = () => {
       <Stack.Screen name='AppForm' component={AppForm} />
       <Stack.Screen name='ImageUpload' component={ImageUpload} />
       <Stack.Screen name='UserProfile' component={UserProfile} />
+      <Stack.Screen name='Tasks' component={Tasks} />
     </Stack.Navigator>
   )
 }

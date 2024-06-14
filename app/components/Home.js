@@ -15,7 +15,7 @@ function Home() {
       <PeopleGroup width={80} height={80} style={{ marginTop: 30 }} />
       <TouchableOpacity
         style={styles.button}
-      // onPress={() => navigation.navigate('List')}
+      onPress={() => navigation.navigate('Tasks')}
       >
         <Text style={styles.buttonText}>Procurar um companheiro</Text>
       </TouchableOpacity>
