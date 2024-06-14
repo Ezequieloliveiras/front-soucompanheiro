@@ -1,13 +1,7 @@
-import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, TextStyle, ViewStyle } from 'react-native';
+const React = require('react');
+const { View, StyleSheet, TouchableOpacity, Text } = require('react-native');
 
-interface FormSubmitButtonProps {
-  title: string;
-  submitting: boolean;
-  onPress: () => void;
-}
-
-const FormSubmitButton: React.FC<FormSubmitButtonProps> = ({ title, submitting, onPress }) => {
+const FormSubmitButton = ({ title, submitting, onPress }) => {
   const backgroundColor = submitting
     ? 'rgba(27,27,51,0.4)'
     : 'rgba(27,27,51,1)';
@@ -28,11 +22,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
-  } as ViewStyle,
+  },
   text: {
     fontSize: 18,
     color: '#fff',
-  } as TextStyle,
+  },
 });
 
-export default FormSubmitButton;
+module.exports = FormSubmitButton;

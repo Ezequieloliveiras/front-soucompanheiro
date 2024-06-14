@@ -1,22 +1,13 @@
 import React from 'react';
-import { NativeStackNavigationProp, createNativeStackNavigator } from '@react-navigation/native-stack'
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { useLogin } from './context/LoginProvider';
 import AppForm from './components/AppForm';
 import ImageUpload from './components/ImageUpload';
 import UserProfile from './components/UserProfile';
-import DrawerNavigator from './DrawerNaviagtor';
+import DrawerNavigator from './DrawerNaviagtor'; // Note: Check spelling of 'Navigator'
 
-type RootStackParamList = {
-  AppForm: undefined;
-  ImageUpload: undefined;
-  UserProfile: undefined;
-  List: undefined;
-};
-
-type MainNavigationProp = NativeStackNavigationProp<RootStackParamList>;
-
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator();
 
 const StackNavigator = () => {
   return (

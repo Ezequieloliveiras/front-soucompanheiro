@@ -1,16 +1,7 @@
-import React from 'react';
-import { View, StyleSheet, Text, Animated, TextStyle, ViewStyle } from 'react-native';
+const React = require('react');
+const { View, StyleSheet, Text, Animated } = require('react-native');
 
-interface FormHeaderProps {
-  leftHeading: string;
-  rightHeading: string;
-  subHeading: string;
-  leftHeaderTranslateX?: number;
-  rightHeaderTranslateY?: number;
-  rightHeaderOpacity?: number;
-}
-
-const FormHeader: React.FC<FormHeaderProps> = ({
+const FormHeader = ({
   leftHeading,
   rightHeading,
   subHeading,
@@ -24,7 +15,7 @@ const FormHeader: React.FC<FormHeaderProps> = ({
         <Animated.Text
           style={[
             styles.heading,
-            { transform: [{ translateX: leftHeaderTranslateX }] as any },
+            { transform: [{ translateX: leftHeaderTranslateX }] },
           ]}
         >
           {leftHeading}
@@ -34,7 +25,7 @@ const FormHeader: React.FC<FormHeaderProps> = ({
             styles.heading,
             {
               opacity: rightHeaderOpacity,
-              transform: [{ translateY: rightHeaderTranslateY }] as any,
+              transform: [{ translateY: rightHeaderTranslateY }],
             },
           ]}
         >
@@ -51,17 +42,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-  } as ViewStyle,
+  },
   heading: {
     fontSize: 30,
     fontWeight: 'bold',
     color: '#1b1b33',
-  } as TextStyle,
+  },
   subHeading: {
     fontSize: 18,
     color: '#1b1b33',
     textAlign: 'center',
-  } as TextStyle,
+  },
 });
 
-export default FormHeader;
+module.exports = FormHeader;

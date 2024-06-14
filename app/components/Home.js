@@ -1,11 +1,12 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+const React = require('react');
+const { StyleSheet, Text, View, TouchableOpacity } = require('react-native');
+const { useNavigation } = require('@react-navigation/native');
 
-import PeopleGroup from '../../assets/PeopleGroup.svg';
-import PeopleAdd from '../../assets/PeopleAdd.svg';
+// Importando os SVGs corretamente (assumindo que você está usando React Native SVG)
+const PeopleGroup = require('../../assets/PeopleGroup.svg').default;
+const PeopleAdd = require('../../assets/PeopleAdd.svg').default;
 
-export default function Home() {
+function Home() {
   const navigation = useNavigation();
 
   return (
@@ -63,3 +64,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
+module.exports = Home;

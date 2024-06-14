@@ -1,13 +1,7 @@
-import React from 'react';
-import { View, StyleSheet, Text, TextInput, TextInputProps, TextStyle, ViewStyle } from 'react-native';
+const React = require('react');
+const { View, StyleSheet, Text, TextInput } = require('react-native');
 
-interface FormInputProps extends TextInputProps {
-  placeholder: string;
-  label: string;
-  error?: string | null;
-}
-
-const FormInput: React.FC<FormInputProps> = ({ placeholder, label, error, ...props }) => {
+const FormInput = ({ placeholder, label, error, ...props }) => {
   return (
     <>
       <View style={styles.rowContainer}>
@@ -26,14 +20,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 5,
-  } as ViewStyle,
+  },
   label: {
     fontWeight: 'bold',
-  } as TextStyle,
+  },
   errorText: {
     color: 'red',
     fontSize: 16,
-  } as TextStyle,
+  },
   input: {
     borderWidth: 1,
     borderColor: '#1b1b33',
@@ -42,7 +36,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingLeft: 10,
     marginBottom: 20,
-  } as TextStyle,
+  },
 });
 
-export default FormInput;
+module.exports = FormInput;

@@ -1,30 +1,29 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text } from 'react-native';
-import client from '../../api/client';
-import { useLogin } from '../../context/LoginProvider';
-import { isValidEmail, isValidObjField, updateError } from '../../utils/methods';
-import FormContainer from '../../components/FormContainer';
-import FormInput from '../../components/FormInput';
-import FormSubmitButton from '../../components/FormSubmitButton';
+import { View, StyleSheet, Text } from 'react-native';
+import signIn from '../api/user';
 
-interface UserInfo {
-  email: string;
-  password: string;
-}
+import { useLogin } from '../context/LoginProvider';
+import { isValidEmail, isValidObjField, updateError } from '../utils/methods';
+import FormContainer from './FormContainer';
+import FormInput from './FormInput';
+import FormSubmitButton from './FormSubmitButton';
 
-const LoginForm: React.FC = () => {
-  const { setIsLoggedIn, setProfile } = useLogin();
-  const [userInfo, setUserInfo] = useState<UserInfo>({ email: '', password: '' });
-  const [error, setError] = useState<string>('');
-  const [submitting, setSubmitting] = useState<boolean>(false);
+const LoginForm = () => {
+  const { setIsLoggedIn, setProfile, setLoginPending } = useLogin();
+  const [userInfo, setUserInfo] = useState({
+    email: '',
+    password: '',
+  });
+
+  const [error, setError] = useState('');
 
   const { email, password } = userInfo;
 
-  const handleOnChangeText = (value: string, fieldName: keyof UserInfo) => {
+  const handleOnChangeText = (value, fieldName) => {
     setUserInfo({ ...userInfo, [fieldName]: value });
   };
 
-  const isValidForm = (): boolean => {
+  const isValidForm = () => {
     if (!isValidObjField(userInfo)) {
       updateError('Required all fields!', setError);
       return false;
@@ -44,23 +43,26 @@ const LoginForm: React.FC = () => {
   };
 
   const submitForm = async () => {
+    setLoginPending(true);
     if (isValidForm()) {
-      setSubmitting(true);
       try {
-        const res = await client.post('/sign-in', { ...userInfo });
+        const signInRes = await signIn(userInfo.email, userInfo.password);
 
-        if (res.data.success) {
+        if (signInRes && signInRes.data.success) {
+          const user = signInRes.data.user;
           setUserInfo({ email: '', password: '' });
-          setProfile(res.data.user);
+          setProfile(user);
           setIsLoggedIn(true);
+        } else {
+          updateError('Login failed. Please check your credentials.', setError);
         }
-
-        console.log(res.data);
       } catch (error) {
         console.log(error);
       } finally {
-        setSubmitting(false);
+        setLoginPending(false);
       }
+    } else {
+      setLoginPending(false);
     }
   };
 
@@ -73,20 +75,20 @@ const LoginForm: React.FC = () => {
       ) : null}
       <FormInput
         value={email}
-        onChangeText={(value: string) => handleOnChangeText(value, 'email')}
+        onChangeText={(value) => handleOnChangeText(value, 'email')}
         label='Email'
         placeholder='example@email.com'
         autoCapitalize='none'
       />
       <FormInput
         value={password}
-        onChangeText={(value: string) => handleOnChangeText(value, 'password')}
+        onChangeText={(value) => handleOnChangeText(value, 'password')}
         label='Password'
         placeholder='********'
         autoCapitalize='none'
         secureTextEntry
       />
-      <FormSubmitButton onPress={submitForm} title='Login' submitting={submitting} />
+      <FormSubmitButton onPress={submitForm} title='Login' submitting={false} />
     </FormContainer>
   );
 };

@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 
-const UserProfile: React.FC = () => {
+const Tasks = () => {
   return (
     <View style={styles.container}>
-      <Text>Profile</Text>
+      <Text>Tasks</Text>
     </View>
   );
 };
@@ -12,9 +12,9 @@ const UserProfile: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
-export default UserProfile;
+export default Tasks;

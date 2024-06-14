@@ -1,28 +1,13 @@
-import React from 'react';
-import {
+const React = require('react');
+const {
   View,
   StyleSheet,
   TouchableWithoutFeedback,
   Text,
   Animated,
-  ViewStyle,
-  TextStyle,
-  GestureResponderEvent,
-} from 'react-native';
+} = require('react-native');
 
-interface FormSelectorBtnProps {
-  title: string;
-  backgroundColor: string;
-  style?: ViewStyle;
-  onPress: (event: GestureResponderEvent) => void;
-}
-
-const FormSelectorBtn: React.FC<FormSelectorBtnProps> = ({
-  title,
-  backgroundColor,
-  style,
-  onPress,
-}) => {
+const FormSelectorBtn = ({ title, backgroundColor, style, onPress }) => {
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <Animated.View style={[styles.container, style, { backgroundColor }]}>
@@ -39,11 +24,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#1b1b33',
     justifyContent: 'center',
     alignItems: 'center',
-  } as ViewStyle,
+  },
   title: {
     color: 'white',
     fontSize: 16,
-  } as TextStyle,
+  },
 });
 
-export default FormSelectorBtn;
+module.exports = FormSelectorBtn;

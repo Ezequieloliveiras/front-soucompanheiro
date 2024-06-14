@@ -1,24 +1,13 @@
-import * as ImagePicker from 'expo-image-picker';
-import React, { useState } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
-import client from '@/app/api/client';
-import { StackActions } from '@react-navigation/native';
-import UploadProgress from './UploadProgress';
+const ImagePicker = require('expo-image-picker');
+const React = require('react');
+const { View, StyleSheet, Text, TouchableOpacity, Image } = require('react-native');
+const client = require('@/app/api/client').default;
+const { StackActions } = require('@react-navigation/native');
+const UploadProgress = require('./UploadProgress').default;
 
-type ImageUploadProps = {
-  route: {
-    params: {
-      token: string;
-    };
-  };
-  navigation: {
-    dispatch: (action: any) => void;
-  };
-};
-
-const ImageUpload: React.FC<ImageUploadProps> = ({ route, navigation }) => {
-  const [image, setImage] = useState<string | null>(null);
-  const [progress, setProgress] = useState<number>(0);
+const ImageUpload = ({ route, navigation }) => {
+  const [image, setImage] = React.useState(null);
+  const [progress, setProgress] = React.useState(0);
   const { token } = route.params;
 
   const pickImage = async () => {
@@ -29,7 +18,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ route, navigation }) => {
       quality: 1,
     });
 
-    if (!result.canceled && result.assets.length > 0) {
+    if (!result.cancelled && result.assets.length > 0) {
       setImage(result.assets[0].uri);
     }
   };
@@ -61,7 +50,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ route, navigation }) => {
         navigation.dispatch(StackActions.replace('AppForm'));
       }
       console.log(res.data);
-    } catch (error: any) {
+    } catch (error) {
       console.log(error.message);
     }
   };
@@ -138,4 +127,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ImageUpload;
+module.exports = ImageUpload;

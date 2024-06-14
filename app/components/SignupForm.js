@@ -9,83 +9,78 @@ import FormContainer from './FormContainer';
 import FormInput from './FormInput';
 import FormSubmitButton from './FormSubmitButton';
 import { useLogin } from '../context/LoginProvider';
-import signIn from '../api/user'
+import signIn from '../api/user';
 
-interface UserInfo {
-  fullname: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
-
-const isValidForm = (userInfo: UserInfo, setError: React.Dispatch<React.SetStateAction<string>>) => {
-  if (!isValidObjField(userInfo)) {
-    updateError('Required all fields!', setError);
-    return false;
-  }
-  if (!userInfo.fullname.trim() || userInfo.fullname.length < 3) {
-    updateError('Invalid name!', setError);
-    return false;
-  }
-  if (!isValidEmail(userInfo.email)) {
-    updateError('Invalid email!', setError);
-    return false;
-  }
-  if (!userInfo.password.trim() || userInfo.password.length < 8) {
-    updateError('Password is too short!', setError);
-    return false;
-  }
-  if (userInfo.password !== userInfo.confirmPassword) {
-    updateError('Password does not match!', setError);
-    return false;
-  }
-  return true;
-};
-
-const validationSchema = Yup.object({
-  fullname: Yup.string()
-    .trim()
-    .min(3, 'Invalid name!')
-    .required('Name is required!'),
-  email: Yup.string().email('Invalid email!').required('Email is required!'),
-  password: Yup.string()
-    .trim()
-    .min(8, 'Password is too short!')
-    .required('Password is required!'),
-  confirmPassword: Yup.string().equals(
-    [Yup.ref('password'), null],
-    'Password does not match!'
-  ),
-});
-
-const SignupForm: React.FC = () => {
+const SignupForm = () => {
   const navigation = useNavigation();
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState('');
 
-  const {setLoginPending} = useLogin()
+  const { setLoginPending } = useLogin();
 
-  const signUp = async (values: UserInfo, formikActions: any) => {
-    setLoginPending(true)
-    const res = await client.post('/create-user', {
-      ...values,
-    });
+  const isValidForm = (userInfo, setError) => {
+    if (!isValidObjField(userInfo)) {
+      updateError('Required all fields!', setError);
+      return false;
+    }
+    if (!userInfo.fullname.trim() || userInfo.fullname.length < 3) {
+      updateError('Invalid name!', setError);
+      return false;
+    }
+    if (!isValidEmail(userInfo.email)) {
+      updateError('Invalid email!', setError);
+      return false;
+    }
+    if (!userInfo.password.trim() || userInfo.password.length < 8) {
+      updateError('Password is too short!', setError);
+      return false;
+    }
+    if (userInfo.password !== userInfo.confirmPassword) {
+      updateError('Password does not match!', setError);
+      return false;
+    }
+    return true;
+  };
 
-    if (res.data.success) {
-      const signInRes = await signIn(values.email, values.password);
-      if (signInRes && signInRes.data && signInRes.data.success) {
-        navigation.dispatch(
+  const validationSchema = Yup.object().shape({
+    fullname: Yup.string()
+      .trim()
+      .min(3, 'Invalid name!')
+      .required('Name is required!'),
+    email: Yup.string().email('Invalid email!').required('Email is required!'),
+    password: Yup.string()
+      .trim()
+      .min(8, 'Password is too short!')
+      .required('Password is required!'),
+    confirmPassword: Yup.string().oneOf(
+      [Yup.ref('password'), null],
+      'Password does not match!'
+    ),
+  });
+
+  const signUp = async (values, formikActions) => {
+    setLoginPending(true);
+    try {
+      const res = await client.post('/create-user', {
+        ...values,
+      });
+
+      if (res.data.success) {
+        const signInRes = await signIn(values.email, values.password);
+        if (signInRes && signInRes.data && signInRes.data.success) {
+          navigation.dispatch(
             StackActions.replace('ImageUpload', {
-                token: signInRes.data.token,
+              token: signInRes.data.token,
             })
-        );
+          );
+        }
+      }
+    } catch (error) {
+      updateError('Failed to sign up. Please try again later.', setError);
+    } finally {
+      formikActions.resetForm();
+      formikActions.setSubmitting(false);
+      setLoginPending(false);
     }
-    
-    }
-
-    formikActions.resetForm();
-    formikActions.setSubmitting(false);
-    setLoginPending(false)
-
   };
 
   return (
@@ -143,7 +138,11 @@ const SignupForm: React.FC = () => {
             />
             <FormInput
               value={values.confirmPassword}
-              error={touched.confirmPassword && errors.confirmPassword ? errors.confirmPassword : null}
+              error={
+                touched.confirmPassword && errors.confirmPassword
+                  ? errors.confirmPassword
+                  : null
+              }
               onChangeText={handleChange('confirmPassword')}
               onBlur={handleBlur('confirmPassword')}
               autoCapitalize='none'

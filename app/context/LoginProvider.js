@@ -1,30 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import client from '../api/client';
 
-interface Profile {
-  [key: string]: any;
-}
+const LoginContext = createContext();
 
-interface LoginContextProps {
-  isLoggedIn: boolean;
-  setIsLoggedIn: (isLoggedIn: boolean) => void;
-  profile: Profile;
-  setProfile: (profile: Profile) => void;
-  loginPending: boolean; // Adicionando a propriedade loginPending
-  setLoginPending: (loginPending: boolean) => void; // Adicionando o setter para loginPending
-}
-
-const LoginContext = createContext<LoginContextProps | undefined>(undefined);
-
-interface LoginProviderProps {
-  children: ReactNode;
-}
-
-const LoginProvider: React.FC<LoginProviderProps> = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [profile, setProfile] = useState<Profile>({});
-  const [loginPending, setLoginPending] = useState<boolean>(false);
+const LoginProvider = ({ children }) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [profile, setProfile] = useState({});
+  const [loginPending, setLoginPending] = useState(false);
 
   const fetchUser = async () => {
     try {
@@ -46,7 +29,7 @@ const LoginProvider: React.FC<LoginProviderProps> = ({ children }) => {
         }
         setLoginPending(false);
       }
-    } catch (error: any) { // Definindo o tipo de 'error' como 'any'
+    } catch (error) {
       console.log('Erro ao buscar usuário:', error.message);
       setLoginPending(false);
     }
@@ -63,7 +46,7 @@ const LoginProvider: React.FC<LoginProviderProps> = ({ children }) => {
   );
 };
 
-export const useLogin = (): LoginContextProps => {
+export const useLogin = () => {
   const context = useContext(LoginContext);
   if (context === undefined) {
     throw new Error('useLogin must be used within a LoginProvider');
