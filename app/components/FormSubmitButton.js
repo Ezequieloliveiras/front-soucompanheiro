@@ -1,10 +1,9 @@
-const React = require('react');
-const { View, StyleSheet, TouchableOpacity, Text } = require('react-native');
+import { StyleSheet, TouchableOpacity, Text } from 'react-native'
 
 const FormSubmitButton = ({ title, submitting, onPress }) => {
   const backgroundColor = submitting
-    ? 'rgba(27,27,51,0.4)'
-    : 'rgba(27,27,51,1)';
+    ? '#0094FF'
+    : '#0094FF';
 
   return (
     <TouchableOpacity

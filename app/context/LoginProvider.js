@@ -1,57 +1,57 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import client from '../api/client';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import React, { createContext, useContext, useState, useEffect } from 'react'
+import client from '../api/client'
 
-const LoginContext = createContext();
+const LoginContext = createContext()
 
 const LoginProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [profile, setProfile] = useState({});
-  const [loginPending, setLoginPending] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [profile, setProfile] = useState({})
+  const [loginPending, setLoginPending] = useState(false)
 
   const fetchUser = async () => {
     try {
-      const token = await AsyncStorage.getItem('token');
+      const token = await AsyncStorage.getItem('token')
       if (token !== null) {
-        setLoginPending(true);
+        setLoginPending(true)
         const res = await client.get('/profile', {
           headers: {
             Authorization: `JWT ${token}`
           }
-        });
+        })
 
         if (res.data.success) {
-          setProfile(res.data.profile);
-          setIsLoggedIn(true);
+          setProfile(res.data.profile)
+          setIsLoggedIn(true)
         } else {
-          setProfile({});
-          setIsLoggedIn(false);
+          setProfile({})
+          setIsLoggedIn(false)
         }
-        setLoginPending(false);
+        setLoginPending(false)
       }
     } catch (error) {
-      console.log('Erro ao buscar usuário:', error.message);
-      setLoginPending(false);
+      console.log('Erro ao buscar usuário:', error.message)
+      setLoginPending(false)
     }
-  };
+  }
 
   useEffect(() => {
-    fetchUser();
-  }, []);
+    fetchUser()
+  }, [])
 
   return (
     <LoginContext.Provider value={{ isLoggedIn, loginPending, setLoginPending, setIsLoggedIn, profile, setProfile }}>
       {children}
     </LoginContext.Provider>
-  );
-};
+  )
+}
 
 export const useLogin = () => {
-  const context = useContext(LoginContext);
+  const context = useContext(LoginContext)
   if (context === undefined) {
-    throw new Error('useLogin must be used within a LoginProvider');
+    throw new Error('useLogin must be used within a LoginProvider')
   }
-  return context;
-};
+  return context
+}
 
-export default LoginProvider;
+export default LoginProvider

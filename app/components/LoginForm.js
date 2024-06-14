@@ -1,70 +1,70 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import signIn from '../api/user';
+import React, { useState } from 'react'
+import { StyleSheet, Text } from 'react-native'
+import signIn from '../api/user'
 
-import { useLogin } from '../context/LoginProvider';
-import { isValidEmail, isValidObjField, updateError } from '../utils/methods';
-import FormContainer from './FormContainer';
-import FormInput from './FormInput';
-import FormSubmitButton from './FormSubmitButton';
+import { useLogin } from '../context/LoginProvider'
+import { isValidEmail, isValidObjField, updateError } from '../utils/methods'
+import FormContainer from './FormContainer'
+import FormInput from './FormInput'
+import FormSubmitButton from './FormSubmitButton'
 
 const LoginForm = () => {
-  const { setIsLoggedIn, setProfile, setLoginPending } = useLogin();
+  const { setIsLoggedIn, setProfile, setLoginPending } = useLogin()
   const [userInfo, setUserInfo] = useState({
     email: '',
     password: '',
-  });
+  })
 
-  const [error, setError] = useState('');
+  const [error, setError] = useState('')
 
-  const { email, password } = userInfo;
+  const { email, password } = userInfo
 
   const handleOnChangeText = (value, fieldName) => {
-    setUserInfo({ ...userInfo, [fieldName]: value });
-  };
+    setUserInfo({ ...userInfo, [fieldName]: value })
+  }
 
   const isValidForm = () => {
     if (!isValidObjField(userInfo)) {
-      updateError('Required all fields!', setError);
-      return false;
+      updateError('Required all fields!', setError)
+      return false
     }
 
     if (!isValidEmail(email)) {
-      updateError('Invalid email!', setError);
-      return false;
+      updateError('Invalid email!', setError)
+      return false
     }
 
     if (!password.trim() || password.length < 8) {
-      updateError('Password is too short!', setError);
-      return false;
+      updateError('Password is too short!', setError)
+      return false
     }
 
-    return true;
-  };
+    return true
+  }
 
   const submitForm = async () => {
-    setLoginPending(true);
+    setLoginPending(true)
     if (isValidForm()) {
       try {
-        const signInRes = await signIn(userInfo.email, userInfo.password);
+        const signInRes = await signIn(userInfo.email, userInfo.password)
 
         if (signInRes && signInRes.data.success) {
-          const user = signInRes.data.user;
-          setUserInfo({ email: '', password: '' });
-          setProfile(user);
-          setIsLoggedIn(true);
+          const user = signInRes.data.user
+          setUserInfo({ email: '', password: '' })
+          setProfile(user)
+          setIsLoggedIn(true)
         } else {
-          updateError('Login failed. Please check your credentials.', setError);
+          updateError('Login failed. Please check your credentials.', setError)
         }
       } catch (error) {
-        console.log(error);
+        console.log(error)
       } finally {
-        setLoginPending(false);
+        setLoginPending(false)
       }
     } else {
-      setLoginPending(false);
+      setLoginPending(false)
     }
-  };
+  }
 
   return (
     <FormContainer>
@@ -77,22 +77,22 @@ const LoginForm = () => {
         value={email}
         onChangeText={(value) => handleOnChangeText(value, 'email')}
         label='Email'
-        placeholder='example@email.com'
+        placeholder='exemplo@email.com'
         autoCapitalize='none'
       />
       <FormInput
         value={password}
         onChangeText={(value) => handleOnChangeText(value, 'password')}
-        label='Password'
+        label='Senha'
         placeholder='********'
         autoCapitalize='none'
         secureTextEntry
       />
       <FormSubmitButton onPress={submitForm} title='Login' submitting={false} />
     </FormContainer>
-  );
-};
+  )
+}
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({})
 
-export default LoginForm;
+export default LoginForm

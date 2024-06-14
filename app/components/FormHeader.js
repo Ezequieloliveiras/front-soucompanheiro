@@ -1,5 +1,4 @@
-const React = require('react');
-const { View, StyleSheet, Text, Animated } = require('react-native');
+import { View, StyleSheet, Text, Animated } from 'react-native'
 
 const FormHeader = ({
   leftHeading,
@@ -46,11 +45,11 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 30,
     fontWeight: 'bold',
-    color: '#1b1b33',
+    color: '#0094FF',
   },
   subHeading: {
     fontSize: 18,
-    color: '#1b1b33',
+    color: '#0094FF',
     textAlign: 'center',
   },
 });

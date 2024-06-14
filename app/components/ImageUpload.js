@@ -1,13 +1,13 @@
-const ImagePicker = require('expo-image-picker');
-const React = require('react');
-const { View, StyleSheet, Text, TouchableOpacity, Image } = require('react-native');
-const client = require('@/app/api/client').default;
-const { StackActions } = require('@react-navigation/native');
-const UploadProgress = require('./UploadProgress').default;
+import React, { useState } from 'react';
+import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
+import * as ImagePicker from 'expo-image-picker'; // Importação corrigida
+import client from '../api/client';
+import { StackActions } from '@react-navigation/native'; // Importação corrigida
+import UploadProgress from './UploadProgress';
 
 const ImageUpload = ({ route, navigation }) => {
-  const [image, setImage] = React.useState(null);
-  const [progress, setProgress] = React.useState(0);
+  const [image, setImage] = useState(null);
+  const [progress, setProgress] = useState(0);
   const { token } = route.params;
 
   const pickImage = async () => {
@@ -18,7 +18,7 @@ const ImageUpload = ({ route, navigation }) => {
       quality: 1,
     });
 
-    if (!result.cancelled && result.assets.length > 0) {
+    if (!result.canceled && result.assets.length > 0) {
       setImage(result.assets[0].uri);
     }
   };
@@ -127,4 +127,4 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = ImageUpload;
+export default ImageUpload; // Usar export default em vez de module.exports

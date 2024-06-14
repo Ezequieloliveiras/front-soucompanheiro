@@ -1,6 +1,5 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
-import LottieView from "lottie-react-native";
+import { View, StyleSheet } from "react-native"
+import LottieView from "lottie-react-native"
 
 const Apploader = () => {
     return (
@@ -12,8 +11,8 @@ const Apploader = () => {
                 style={styles.lottie}
             />
         </View>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -26,6 +25,6 @@ const styles = StyleSheet.create({
         width: 200,
         height: 200,
     }
-});
+})
 
-export default Apploader;
+export default Apploader

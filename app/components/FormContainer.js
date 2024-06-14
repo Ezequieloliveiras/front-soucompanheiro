@@ -1,5 +1,4 @@
-const React = require('react');
-const { View, StyleSheet, Dimensions, KeyboardAvoidingView, Platform } = require('react-native');
+import { StyleSheet, Dimensions, KeyboardAvoidingView, Platform } from 'react-native'
 
 const FormContainer = ({ children }) => {
     return (

@@ -1,29 +1,28 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native'
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
   DrawerItemList,
-} from '@react-navigation/drawer';
+} from '@react-navigation/drawer'
 
-import Home from './components/Home';
-import Tasks from './components/Tasks';
-import { useLogin } from './context/LoginProvider';
-import { signOut } from './api/user';
+import Home from './components/Home'
+import Tasks from './components/Tasks'
+import { useLogin } from './context/LoginProvider'
+import { signOut } from './api/user'
 
-const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator()
 
 const CustomDrawer = (props) => {
-  const { setIsLoggedIn, profile, setLoginPending } = useLogin();
+  const { setIsLoggedIn, profile, setLoginPending } = useLogin()
 
   const handleLogout = async () => {
-    setLoginPending(true);
-    const isLoggedOut = await signOut();
+    setLoginPending(true)
+    const isLoggedOut = await signOut()
     if (isLoggedOut) {
-      setIsLoggedIn(false);
+      setIsLoggedIn(false)
     }
-    setLoginPending(false);
-  };
+    setLoginPending(false)
+  }
 
   return (
     <View style={{ flex: 1 }}>
@@ -67,8 +66,8 @@ const CustomDrawer = (props) => {
         <Text>Log Out</Text>
       </TouchableOpacity>
     </View>
-  );
-};
+  )
+}
 
 const DrawerNavigator = () => {
   return (
@@ -87,7 +86,7 @@ const DrawerNavigator = () => {
       <Drawer.Screen component={Home} name='Home' />
       <Drawer.Screen component={Tasks} name='Tasks' />
     </Drawer.Navigator>
-  );
-};
+  )
+}
 
-export default DrawerNavigator;
+export default DrawerNavigator

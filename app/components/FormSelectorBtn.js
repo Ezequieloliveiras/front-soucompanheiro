@@ -1,11 +1,9 @@
-const React = require('react');
-const {
-  View,
+import {
   StyleSheet,
   TouchableWithoutFeedback,
   Text,
   Animated,
-} = require('react-native');
+} from 'react-native'
 
 const FormSelectorBtn = ({ title, backgroundColor, style, onPress }) => {
   return (

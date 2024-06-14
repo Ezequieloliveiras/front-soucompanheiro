@@ -1,48 +1,49 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react'
 import {
   ScrollView,
   StyleSheet,
   View,
   Animated,
   Dimensions,
-} from 'react-native';
+} from 'react-native'
 
-import FormHeader from './FormHeader';
-import FormSelectorBtn from './FormSelectorBtn';
-import SignupForm from './SignupForm';
-import LoginForm from './LoginForm';
+import FormHeader from './FormHeader'
+import FormSelectorBtn from './FormSelectorBtn'
+import SignupForm from './SignupForm'
+import LoginForm from './LoginForm'
 import AppLoader from './AppLoader'
-import { useLogin } from '../context/LoginProvider';
+import { useLogin } from '../context/LoginProvider'
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window')
 
 export default function AppForm({ navigation }) {
-  const animation = useRef(new Animated.Value(0)).current;
-  const scrollView = useRef();
+  const animation = useRef(new Animated.Value(0)).current
+  const scrollView = useRef()
 
   const { loginPending } = useLogin()
 
   const rightHeaderOpacity = animation.interpolate({
-    inputRange: [0, width],
+    inputRange: [1, width],
     outputRange: [1, 0],
-  });
+  })
 
   const leftHeaderTranslateX = animation.interpolate({
-    inputRange: [0, width],
-    outputRange: [0, 40],
-  });
+    inputRange: [50, width],
+    outputRange: [0,56],
+  })
   const rightHeaderTranslateY = animation.interpolate({
     inputRange: [0, width],
     outputRange: [0, -20],
-  });
+  })
   const loginColorInterpolate = animation.interpolate({
     inputRange: [0, width],
-    outputRange: ['rgba(27,27,51,1)', 'rgba(27,27,51,0.4)'],
-  });
+    outputRange: ['#0094FF', 'rgba(27,27,51,0.4)'],
+    
+  })
   const signupColorInterpolate = animation.interpolate({
     inputRange: [0, width],
-    outputRange: ['rgba(27,27,51,0.4)', 'rgba(27,27,51,1)'],
-  });
+    outputRange: ['rgba(27,27,51,0.4)', '#0094FF'],
+  })
 
   return (
     <>
@@ -50,9 +51,9 @@ export default function AppForm({ navigation }) {
       <View style={{ flex: 1, paddingTop: 120 }}>
         <View style={{ height: 80 }}>
           <FormHeader
-            leftHeading='Welcome '
-            rightHeading='Back'
-            subHeading='YouTube Task Manager'
+            leftHeading='Bem-vindo'
+            rightHeading='de volta!'
+            subHeading='O melhor app de diaristas'
             rightHeaderOpacity={rightHeaderOpacity}
             leftHeaderTranslateX={leftHeaderTranslateX}
             rightHeaderTranslateY={rightHeaderTranslateY}
@@ -68,13 +69,13 @@ export default function AppForm({ navigation }) {
           <FormSelectorBtn
             style={styles.borderLeft}
             backgroundColor={loginColorInterpolate}
-            title='Login'
+            title='Entrar'
             onPress={() => scrollView.current.scrollTo({ x: 0 })}
           />
           <FormSelectorBtn
             style={styles.borderRight}
             backgroundColor={signupColorInterpolate}
-            title='Sign up'
+            title='Inscreva-se'
             onPress={() => scrollView.current.scrollTo({ x: width })}
           />
         </View>
@@ -97,7 +98,7 @@ export default function AppForm({ navigation }) {
       </View>
       {loginPending ? <AppLoader /> : null}
     </>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -115,4 +116,4 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 8,
     borderBottomRightRadius: 8,
   },
-});
+})

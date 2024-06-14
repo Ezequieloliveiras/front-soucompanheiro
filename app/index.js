@@ -1,7 +1,5 @@
-import React from 'react';
-
-import MainNavigator from './MainNavigator';
-import LoginProvider from './context/LoginProvider';
+import MainNavigator from './MainNavigator'
+import LoginProvider from './context/LoginProvider'
 
 export default function App() {
   return (
@@ -10,5 +8,5 @@ export default function App() {
         <MainNavigator />
       </>
     </LoginProvider>
-  );
+  )
 }

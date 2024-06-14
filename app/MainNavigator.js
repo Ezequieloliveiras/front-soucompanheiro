@@ -1,13 +1,11 @@
-import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { useLogin } from './context/LoginProvider'
+import AppForm from './components/AppForm'
+import ImageUpload from './components/ImageUpload'
+import UserProfile from './components/UserProfile'
+import DrawerNavigator from './DrawerNaviagtor' // Note: Check spelling of 'Navigator'
 
-import { useLogin } from './context/LoginProvider';
-import AppForm from './components/AppForm';
-import ImageUpload from './components/ImageUpload';
-import UserProfile from './components/UserProfile';
-import DrawerNavigator from './DrawerNaviagtor'; // Note: Check spelling of 'Navigator'
-
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator()
 
 const StackNavigator = () => {
   return (
@@ -16,12 +14,12 @@ const StackNavigator = () => {
       <Stack.Screen name='ImageUpload' component={ImageUpload} />
       <Stack.Screen name='UserProfile' component={UserProfile} />
     </Stack.Navigator>
-  );
-};
+  )
+}
 
 const MainNavigator = () => {
-  const { isLoggedIn } = useLogin();
-  return isLoggedIn ? <DrawerNavigator /> : <StackNavigator />;
-};
+  const { isLoggedIn } = useLogin()
+  return isLoggedIn ? <DrawerNavigator /> : <StackNavigator />
+}
 
-export default MainNavigator;
+export default MainNavigator

@@ -1,10 +1,7 @@
-const React = require('react');
-const { StyleSheet, Text, View, TouchableOpacity } = require('react-native');
-const { useNavigation } = require('@react-navigation/native');
-
-// Importando os SVGs corretamente (assumindo que você está usando React Native SVG)
-const PeopleGroup = require('../../assets/PeopleGroup.svg').default;
-const PeopleAdd = require('../../assets/PeopleAdd.svg').default;
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+import PeopleGroup from '../../assets/PeopleGroup.svg'
+import PeopleAdd from '../../assets/PeopleAdd.svg'
 
 function Home() {
   const navigation = useNavigation();
@@ -18,7 +15,7 @@ function Home() {
       <PeopleGroup width={80} height={80} style={{ marginTop: 30 }} />
       <TouchableOpacity
         style={styles.button}
-        // onPress={() => navigation.navigate('List')}
+      // onPress={() => navigation.navigate('List')}
       >
         <Text style={styles.buttonText}>Procurar um companheiro</Text>
       </TouchableOpacity>
@@ -26,7 +23,7 @@ function Home() {
       <PeopleAdd width={80} height={80} style={{ marginTop: 30 }} />
       <TouchableOpacity
         style={styles.button}
-        // onPress={() => navigation.navigate('Menu')}
+      // onPress={() => navigation.navigate('Menu')}
       >
         <Text style={styles.buttonText}>Ser um companheiro</Text>
       </TouchableOpacity>
