@@ -36,22 +36,33 @@ const ImageUpload = ({ route, navigation }) => {
     try {
       const res = await client.post('/upload-profile', formData, {
         headers: {
-          Accept: 'application/json',
+          'Accept': 'application/json',
           'Content-Type': 'multipart/form-data',
-          Authorization: `JWT ${token}`,
+          'Authorization': `JWT ${token}`,
         },
         onUploadProgress: (progressEvent) => {
-          const { loaded, total = 1 } = progressEvent;
+          const { loaded, total } = progressEvent;
           setProgress((loaded / total) * 100);
         },
       });
 
       if (res.data.success) {
         navigation.dispatch(StackActions.replace('AppForm'));
+      } else {
+
       }
-      console.log(res.data);
     } catch (error) {
-      console.log(error.message);
+      if (error.response) {
+        // A resposta foi recebida, mas o servidor respondeu com um status de erro
+        console.log('Erro na resposta do servidor:', error.response.data);
+      } else if (error.request) {
+        // A requisição foi feita, mas nenhuma resposta foi recebida
+        console.log('Erro na requisição:', error.request);
+      } else {
+        // Algo aconteceu na configuração da requisição que provocou o erro
+        console.log('Erro:', error.message);
+      }
+      console.log('Configuração do erro:', error.config);
     }
   };
 
