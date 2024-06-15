@@ -6,7 +6,7 @@ import {
 } from '@react-navigation/drawer'
 
 import Home from './components/Home'
-import Tasks from './components/Tasks'
+import UserList from './components/UsersList.js'
 import { useLogin } from './context/LoginProvider'
 import { signOut } from './api/user'
 
@@ -84,7 +84,7 @@ const DrawerNavigator = () => {
       drawerContent={(props) => <CustomDrawer {...props} />}
     >
       <Drawer.Screen component={Home} name='Home' />
-      <Drawer.Screen component={Tasks} name='Tasks' />
+      <Drawer.Screen component={UserList} name='UserList' />
     </Drawer.Navigator>
   )
 }

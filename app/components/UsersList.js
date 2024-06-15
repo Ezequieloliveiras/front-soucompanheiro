@@ -3,7 +3,10 @@ import { View, StyleSheet, Text } from 'react-native'
 import client from '../api/client'
 import { FlatList } from 'react-native-gesture-handler'
 
-const Tasks = () => {
+import ListAccordion from './readyComponent/IconList'
+// import ApiIBGE from './ApiIBGE'
+
+const UsersList = () => {
   const [users, setUsers] = useState([])
 
   useEffect(() => {
@@ -27,7 +30,8 @@ const Tasks = () => {
   return (
     <View style={styles.container}>
       <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Usuários</Text>
-
+        <ListAccordion />
+        {/* <ApiIBGE/> */}
       <FlatList
         data={users}
         renderItem={({ item }) => (
@@ -50,6 +54,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    width: '100%'
   },
   item: {
     padding: 10,
@@ -59,4 +64,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Tasks
+export default UsersList
