@@ -1,11 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, TouchableOpacity, Button } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, Button, Alert } from "react-native";
 
 const StatesAndCityAPI = () => {
   const [estados, setEstados] = useState([]);
   const [estadoSelecionado, setEstadoSelecionado] = useState(null);
   const [cidadesDoEstado, setCidadesDoEstado] = useState([]);
+  const [cidadeSelecionada, setCidadeSelecionada] = useState(null);
 
   useEffect(() => {
     fetchIbgeUF();
@@ -16,7 +17,7 @@ const StatesAndCityAPI = () => {
       const res = await axios.get(
         "https://servicodados.ibge.gov.br/api/v1/localidades/estados"
       );
-      // Sort states alphabetically by 'nome'
+      // Ordenar estados alfabeticamente por 'nome'
       const sortedEstados = res.data.sort((a, b) => {
         if (a.nome < b.nome) return -1;
         if (a.nome > b.nome) return 1;
@@ -41,12 +42,25 @@ const StatesAndCityAPI = () => {
 
   const handleEstadoClick = (estado) => {
     setEstadoSelecionado(estado);
+    setCidadeSelecionada(null);  // Reset cidade selecionada quando um novo estado é selecionado
     fetchCidades(estado.sigla);
+  };
+
+  const handleCidadeClick = (cidade) => {
+    setCidadeSelecionada(cidade);
   };
 
   const handleVoltar = () => {
     setEstadoSelecionado(null);
     setCidadesDoEstado([]);
+    setCidadeSelecionada(null);
+  };
+
+  const handleEnviarParaBanco = () => {
+    // Aqui você pode enviar estadoSelecionado e cidadeSelecionada para o banco de dados
+    console.log("Estado selecionado para envio:", estadoSelecionado);
+    console.log("Cidade selecionada para envio:", cidadeSelecionada);
+    Alert.alert("Enviado", `Estado ${estadoSelecionado.nome} e cidade ${cidadeSelecionada.nome} foram enviados para o banco de dados.`);
   };
 
   return (
@@ -73,13 +87,16 @@ const StatesAndCityAPI = () => {
             style={{ marginTop: 10 }}
             data={cidadesDoEstado}
             renderItem={({ item }) => (
-              <View style={{ marginLeft: 10, marginTop: 5 }}>
-                <Text>{item.nome}</Text>
-              </View>
+              <TouchableOpacity onPress={() => handleCidadeClick(item)}>
+                <Text style={{ marginLeft: 10, marginTop: 5, color: cidadeSelecionada === item ? 'blue' : 'black' }}>{item.nome}</Text>
+              </TouchableOpacity>
             )}
             keyExtractor={(item) => item.id.toString()}
           />
         </>
+      )}
+      {cidadeSelecionada && (
+        <Button title={`Enviar ${estadoSelecionado.nome} - ${cidadeSelecionada.nome}`} onPress={handleEnviarParaBanco} />
       )}
     </View>
   );
