@@ -1,105 +1,141 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, TouchableOpacity, Button, Alert } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 const StatesAndCityAPI = () => {
-  const [estados, setEstados] = useState([]);
-  const [estadoSelecionado, setEstadoSelecionado] = useState(null);
-  const [cidadesDoEstado, setCidadesDoEstado] = useState([]);
-  const [cidadeSelecionada, setCidadeSelecionada] = useState(null);
+    const [estados, setEstados] = useState([]);
+    const [estadoSelecionado, setEstadoSelecionado] = useState(null);
+    const [cidadesDoEstado, setCidadesDoEstado] = useState([]);
+    const [cidadeSelecionada, setCidadeSelecionada] = useState(null);
+    const [listaExpandida, setListaExpandida] = useState(false);  // Estado para controlar a expansão da lista
 
-  useEffect(() => {
-    fetchIbgeUF();
-  }, []);
+    useEffect(() => {
+        fetchIbgeUF();
+    }, []);
 
-  const fetchIbgeUF = async () => {
-    try {
-      const res = await axios.get(
-        "https://servicodados.ibge.gov.br/api/v1/localidades/estados"
-      );
-      // Ordenar estados alfabeticamente por 'nome'
-      const sortedEstados = res.data.sort((a, b) => {
-        if (a.nome < b.nome) return -1;
-        if (a.nome > b.nome) return 1;
-        return 0;
-      });
-      setEstados(sortedEstados);
-    } catch (error) {
-      console.log("Erro ao buscar estados:", error.message);
-    }
-  };
+    const fetchIbgeUF = async () => {
+        try {
+            const res = await axios.get(
+                "https://servicodados.ibge.gov.br/api/v1/localidades/estados"
+            );
+            // Ordenar estados alfabeticamente por 'nome'
+            const sortedEstados = res.data.sort((a, b) => {
+                if (a.nome < b.nome) return -1;
+                if (a.nome > b.nome) return 1;
+                return 0;
+            });
+            setEstados(sortedEstados);
+        } catch (error) {
+            console.log("Erro ao buscar estados:", error.message);
+        }
+    };
 
-  const fetchCidades = async (estadoSigla) => {
-    try {
-      const res = await axios.get(
-        `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estadoSigla}/municipios`
-      );
-      setCidadesDoEstado(res.data);
-    } catch (error) {
-      console.log("Erro ao buscar cidades:", error.message);
-    }
-  };
+    const fetchCidades = async (estadoSigla) => {
+        try {
+            const res = await axios.get(
+                `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estadoSigla}/municipios`
+            );
+            setCidadesDoEstado(res.data);
+        } catch (error) {
+            console.log("Erro ao buscar cidades:", error.message);
+        }
+    };
 
-  const handleEstadoClick = (estado) => {
-    setEstadoSelecionado(estado);
-    setCidadeSelecionada(null);  // Reset cidade selecionada quando um novo estado é selecionado
-    fetchCidades(estado.sigla);
-  };
+    const handleEstadoClick = (estado) => {
+        setEstadoSelecionado(estado);
+        setCidadeSelecionada(null);  // Reset cidade selecionada quando um novo estado é selecionado
+        fetchCidades(estado.sigla);
+    };
 
-  const handleCidadeClick = (cidade) => {
-    setCidadeSelecionada(cidade);
-  };
+    const handleCidadeClick = (cidade) => {
+        setCidadeSelecionada(cidade);
+    };
 
-  const handleVoltar = () => {
-    setEstadoSelecionado(null);
-    setCidadesDoEstado([]);
-    setCidadeSelecionada(null);
-  };
+    const handleVoltar = () => {
+        setEstadoSelecionado(null);
+        setCidadesDoEstado([]);
+        setCidadeSelecionada(null);
+        setListaExpandida(false);
+    };
 
-  const handleEnviarParaBanco = () => {
-    // Aqui você pode enviar estadoSelecionado e cidadeSelecionada para o banco de dados
-    console.log("Estado selecionado para envio:", estadoSelecionado);
-    console.log("Cidade selecionada para envio:", cidadeSelecionada);
-    Alert.alert("Enviado", `Estado ${estadoSelecionado.nome} e cidade ${cidadeSelecionada.nome} foram enviados para o banco de dados.`);
-  };
+    const handleEnviarParaBanco = () => {
+        // Aqui você pode enviar estadoSelecionado e cidadeSelecionada para o banco de dados
+        console.log("Estado selecionado para envio:", estadoSelecionado);
+        console.log("Cidade selecionada para envio:", cidadeSelecionada);
+        Alert.alert("Enviado", `Estado ${estadoSelecionado.nome} e cidade ${cidadeSelecionada.nome} foram enviados para o banco de dados.`);
+    };
 
-  return (
-    <View style={{ flex: 1, padding: 20 }}>
-      {!estadoSelecionado ? (
-        <>
-          <Text>Selecione um estado para ver as cidades:</Text>
-          <FlatList
-            style={{ marginTop: 10 }}
-            data={estados}
-            renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => handleEstadoClick(item)}>
-                <Text>{item.nome} ({item.sigla})</Text>
-              </TouchableOpacity>
+    const toggleListaExpandida = () => {
+        setListaExpandida(!listaExpandida);
+    };
+
+    return (
+        <View style={{ flex: 1, padding: 20 }}>
+            {!estadoSelecionado ? (
+                <>
+                    <TouchableOpacity style={styles.titleContainer} onPress={toggleListaExpandida}>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>Selecione seu Estado</Text>
+                        <Icon style={{ width: 200 }} name={listaExpandida ? "expand-less" : "expand-more"} size={24} color="black" />
+                    </TouchableOpacity>
+                    {listaExpandida && (
+                        <FlatList
+                            style={{ marginTop: 10 }}
+                            data={estados}
+                            renderItem={({ item }) => (
+                                <TouchableOpacity onPress={() => handleEstadoClick(item)}>
+                                    <Text style={{fontSize:16 }}>{item.nome} ({item.sigla})</Text>
+                                </TouchableOpacity>
+                            )}
+                            keyExtractor={(item) => item.id.toString()}
+                        />
+                    )}
+                </>
+            ) : (
+                <>
+                    <TouchableOpacity style={styles.button} onPress={handleVoltar}>
+                        <Text style={styles.buttonText}>Voltar para selecionar outro estado</Text>
+                    </TouchableOpacity>
+                    {cidadeSelecionada && (
+                        <TouchableOpacity style={styles.button} onPress={handleEnviarParaBanco}>
+                            <Text style={styles.buttonText}>Selecionado {estadoSelecionado.nome} - {cidadeSelecionada.nome}</Text>
+                        </TouchableOpacity>
+                    )}
+                    <Text style={{ marginTop: 10, fontWeight:'bold', fontSize: 16 }}>Selecione a sua Cidade:</Text>
+                    <FlatList
+                        style={{ marginTop: 10 }}
+                        data={cidadesDoEstado}
+                        renderItem={({ item }) => (
+                            <TouchableOpacity onPress={() => handleCidadeClick(item)}>
+                                <Text style={{ marginLeft: 10, marginTop: 15, marginBottom: 10, color: cidadeSelecionada === item ? 'blue' : 'black', fontSize: 16 }}>{item.nome}</Text>
+                            </TouchableOpacity>
+                        )}
+                        keyExtractor={(item) => item.id.toString()}
+                    />
+                </>
             )}
-            keyExtractor={(item) => item.id.toString()}
-          />
-        </>
-      ) : (
-        <>
-          <Button title="Voltar para selecionar outro estado" onPress={handleVoltar} />
-          <Text style={{ marginTop: 10 }}>Cidades do estado {estadoSelecionado.nome}:</Text>
-          <FlatList
-            style={{ marginTop: 10 }}
-            data={cidadesDoEstado}
-            renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => handleCidadeClick(item)}>
-                <Text style={{ marginLeft: 10, marginTop: 5, color: cidadeSelecionada === item ? 'blue' : 'black' }}>{item.nome}</Text>
-              </TouchableOpacity>
-            )}
-            keyExtractor={(item) => item.id.toString()}
-          />
-        </>
-      )}
-      {cidadeSelecionada && (
-        <Button title={`Enviar ${estadoSelecionado.nome} - ${cidadeSelecionada.nome}`} onPress={handleEnviarParaBanco} />
-      )}
-    </View>
-  );
+        </View>
+    );
 };
+
+const styles = StyleSheet.create({
+    titleContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    button: {
+        backgroundColor: '#007BFF',
+        padding: 10,
+        borderRadius: 5,
+        alignItems: 'center',
+        marginVertical: 10,
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+});
 
 export default StatesAndCityAPI;
