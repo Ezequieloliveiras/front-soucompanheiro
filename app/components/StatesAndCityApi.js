@@ -16,7 +16,13 @@ const StatesAndCityAPI = () => {
       const res = await axios.get(
         "https://servicodados.ibge.gov.br/api/v1/localidades/estados"
       );
-      setEstados(res.data);
+      // Sort states alphabetically by 'nome'
+      const sortedEstados = res.data.sort((a, b) => {
+        if (a.nome < b.nome) return -1;
+        if (a.nome > b.nome) return 1;
+        return 0;
+      });
+      setEstados(sortedEstados);
     } catch (error) {
       console.log("Erro ao buscar estados:", error.message);
     }
