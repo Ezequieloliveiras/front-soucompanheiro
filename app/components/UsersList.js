@@ -15,7 +15,7 @@ const UsersList = () => {
         const res = await client.get('/list-users')
         if (res.data.success) {
           setUsers(res.data.user) // Ajuste para acessar o array de usuários corretamente
-          console.log(res.data)
+          // console.log(res.data)
         } else {
           console.log('Erro ao buscar usuários:', res.data.message)
         }

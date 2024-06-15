@@ -1,3 +1,5 @@
+// Aqui é feita a verdadeira navegacao dde rotas
+
 import { View, Text, TouchableOpacity, Image } from 'react-native'
 import {
   createDrawerNavigator,
@@ -7,6 +9,7 @@ import {
 
 import Home from './components/Home'
 import UserList from './components/UsersList.js'
+import StatesAndCityApi from './components/StatesAndCityApi.js'
 import { useLogin } from './context/LoginProvider'
 import { signOut } from './api/user'
 
@@ -85,6 +88,7 @@ const DrawerNavigator = () => {
     >
       <Drawer.Screen component={Home} name='Home' />
       <Drawer.Screen component={UserList} name='UserList' />
+      <Drawer.Screen component={StatesAndCityApi} name='StatesAndCityApi' />
     </Drawer.Navigator>
   )
 }

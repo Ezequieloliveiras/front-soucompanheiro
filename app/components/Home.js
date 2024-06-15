@@ -23,7 +23,7 @@ function Home() {
       <PeopleAdd width={80} height={80} style={{ marginTop: 30 }} />
       <TouchableOpacity
         style={styles.button}
-      // onPress={() => navigation.navigate('Menu')}
+      onPress={() => navigation.navigate('StatesAndCityApi')}
       >
         <Text style={styles.buttonText}>Ser um companheiro</Text>
       </TouchableOpacity>
