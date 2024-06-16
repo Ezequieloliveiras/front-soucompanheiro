@@ -11,6 +11,10 @@ import FormInput from './FormInput'
 import FormSubmitButton from './FormSubmitButton'
 import signIn from '../api/user'
 
+
+import StatesAndCityAPI from './StatesAndCityApi'
+
+
 const SignupForm = () => {
   const navigation = useNavigation()
   const [error, setError] = useState('')
@@ -92,6 +96,7 @@ const SignupForm = () => {
           password: '',
           confirmPassword: '',
         }}
+        
         validationSchema={validationSchema}
         onSubmit={(values, formikActions) => {
           if (isValidForm(values, setError)) {
@@ -109,6 +114,7 @@ const SignupForm = () => {
           handleSubmit,
         }) => (
           <>
+          
             <FormInput
               value={values.fullname}
               error={touched.fullname && errors.fullname ? errors.fullname : null}
@@ -151,6 +157,7 @@ const SignupForm = () => {
               placeholder='********'
             />
             <FormSubmitButton
+            style={styles.button}
               submitting={isSubmitting}
               onPress={handleSubmit}
               title='Sign up'
@@ -163,10 +170,16 @@ const SignupForm = () => {
           {error}
         </Text>
       ) : null}
+     
     </FormContainer>
   )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  button: {
+    marginBottom: 50,
+  }
+
+})
 
 export default SignupForm
