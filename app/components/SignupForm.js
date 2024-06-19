@@ -12,9 +12,6 @@ import FormSubmitButton from './FormSubmitButton'
 import signIn from '../api/user'
 
 
-import StatesAndCityAPI from './StatesAndCityApi'
-
-
 const SignupForm = () => {
   const navigation = useNavigation()
   const [error, setError] = useState('')

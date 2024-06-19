@@ -7,13 +7,16 @@ import { isValidEmail, isValidObjField, updateError } from '../utils/methods'
 import FormContainer from './FormContainer'
 import FormInput from './FormInput'
 import FormSubmitButton from './FormSubmitButton'
+// import React, { useContext } from 'react';
+
+// import { UserContext } from '../api/UserContext'
 
 const LoginForm = () => {
   const { setIsLoggedIn, setProfile, setLoginPending } = useLogin()
-  const [userInfo, setUserInfo] = useState({
-    email: '',
-    password: '',
-  })
+  const [userInfo, setUserInfo] = useState({ email: '', password: '', })
+
+  // const { userId, updateUserId } = useContext(UserContext);
+
 
   const [error, setError] = useState('')
 

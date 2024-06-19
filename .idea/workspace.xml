@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<!-- <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="NONE" />
@@ -6,7 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="3f33c75d-d4e2-4e48-b9f4-abccbb92e879" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/screens/Register/RegisterForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/screens/Register/RegisterForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/DrawerNaviagtor.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/DrawerNaviagtor.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/MainNavigator.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/MainNavigator.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/LoginForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/LoginForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/SignupForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/SignupForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/StatesAndCityApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/StatesAndCityApi.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,4 +59,4 @@
     </task>
     <servers />
   </component>
-</project>
+</project> -->

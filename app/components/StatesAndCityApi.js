@@ -60,9 +60,8 @@ const StatesAndCityAPI = () => {
             const res = await client.post('/users/associate-state-city', {
                 cidade: cidadeSelecionada.nome,
                 estado: estadoSelecionado.nome,
-                userId: '666c6c4777a32f5ebdf227b1'
             });
-    
+
             console.log(res.data);
             Alert.alert("Enviado", `Estado ${estadoSelecionado.nome} e cidade ${cidadeSelecionada.nome} foram associados ao usuário.`);
         } catch (error) {
@@ -70,7 +69,7 @@ const StatesAndCityAPI = () => {
             Alert.alert('Erro', 'Não foi possível associar estado e cidade ao usuário.');
         }
     };
-    
+
 
     const toggleListaExpandida = () => {
         setListaExpandida(!listaExpandida);
@@ -86,11 +85,11 @@ const StatesAndCityAPI = () => {
                     </TouchableOpacity>
                     {listaExpandida && (
                         <FlatList
-                            style={{ marginTop: 10}}
+                            style={{ marginTop: 10 }}
                             data={estados}
                             renderItem={({ item }) => (
                                 <TouchableOpacity onPress={() => handleEstadoClick(item)}>
-                                    <Text style={{fontSize:16, marginTop:20}}>{item.nome} ({item.sigla})</Text>
+                                    <Text style={{ fontSize: 16, marginTop: 20 }}>{item.nome} ({item.sigla})</Text>
                                 </TouchableOpacity>
                             )}
                             keyExtractor={(item) => item.id.toString()}
@@ -107,7 +106,7 @@ const StatesAndCityAPI = () => {
                             <Text style={styles.buttonText}>Selecionado {estadoSelecionado.nome} - {cidadeSelecionada.nome}</Text>
                         </TouchableOpacity>
                     )}
-                    <Text style={{ marginTop: 10, fontWeight:'bold', fontSize: 16 }}>Selecione a sua Cidade:</Text>
+                    <Text style={{ marginTop: 10, fontWeight: 'bold', fontSize: 16 }}>Selecione a sua Cidade:</Text>
                     <FlatList
                         style={{ marginTop: 10 }}
                         data={cidadesDoEstado}
