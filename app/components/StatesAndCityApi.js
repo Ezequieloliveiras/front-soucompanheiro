@@ -60,6 +60,7 @@ const StatesAndCityAPI = () => {
             const res = await client.post('/users/associate-state-city', {
                 cidade: cidadeSelecionada.nome,
                 estado: estadoSelecionado.nome,
+                userId: '66723ab0e17b60759368c438'
             });
 
             console.log(res.data);

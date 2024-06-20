@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import PeopleGroup from '../../assets/PeopleGroup.svg'
 import PeopleAdd from '../../assets/PeopleAdd.svg'
+import StyledButton from './buttons/Button'
 
 function Home() {
   const navigation = useNavigation();
@@ -11,6 +12,11 @@ function Home() {
       <Text style={styles.text}>
         Aqui você encontra um companheiro para seu trabalho e também pode ser um companheiro.
       </Text>
+      <View>
+
+      <StyledButton title='Procurar um companheiro'/>
+      <StyledButton title='Procurar um contratante'/>
+      </View>
 
       <PeopleGroup width={80} height={80} style={{ marginTop: 30 }} />
       <TouchableOpacity
