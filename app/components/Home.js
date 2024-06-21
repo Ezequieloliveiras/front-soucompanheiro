@@ -1,38 +1,57 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
-import PeopleGroup from '../../assets/PeopleGroup.svg'
-import PeopleAdd from '../../assets/PeopleAdd.svg'
-import StyledButton from './buttons/Button'
+import { StyleSheet, Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import StyledButton from './buttons/Button';
+import CardUser from './cards/CardUser';
+import { useState } from 'react';
 
 function Home() {
   const navigation = useNavigation();
+  const [text, setText] = useState('Painel de Vagas');
+  const [buttonText, setButtonText] = useState('Minhas Incrições');
+  const [isTextVisible, setIsTextVisible] = useState(false);
+
+  // Logica de mudar o conteudo da pagina
+  const changeText = () => {
+    if (text === 'Painel de Vagas') {
+      setText('Minhas Incrições');
+      setButtonText('Voltar para vagas');
+    } else {
+      setText('Painel de Vagas');
+      setButtonText('Minhas Incrições');
+    }
+  };
+
+  // Logica de exibir/esconder texto
+  const toggleTextVisibility = () => {
+    setIsTextVisible(!isTextVisible);
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>
-        Aqui você encontra um companheiro para seu trabalho e também pode ser um companheiro.
-      </Text>
-      <View>
-
-      <StyledButton title='Procurar um companheiro'/>
-      <StyledButton title='Procurar um contratante'/>
+      <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 20 }}>{text}</Text>
+      <CardUser
+        title='Colhedor de Café'
+        onPress={toggleTextVisibility}
+        width={300}
+        height={90}
+        textColor={'#424242'}
+        backgroundColor={'#f5f5f5'}
+      />
+      
+      {isTextVisible && (
+        <Text style={{textAlign: 'justify'}}>
+          It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+        </Text>
+      )}
+      <View style={{marginBottom: 10, position: 'absolute', bottom: 0}}>
+        <StyledButton
+          title={buttonText}
+          onPress={changeText}
+          backgroundColor={'#0094FF'}
+          width={150}
+          height={50}
+        />
       </View>
-
-      <PeopleGroup width={80} height={80} style={{ marginTop: 30 }} />
-      <TouchableOpacity
-        style={styles.button}
-      onPress={() => navigation.navigate('UserList')}
-      >
-        <Text style={styles.buttonText}>Procurar um companheiro</Text>
-      </TouchableOpacity>
-
-      <PeopleAdd width={80} height={80} style={{ marginTop: 30 }} />
-      <TouchableOpacity
-        style={styles.button}
-      onPress={() => navigation.navigate('StatesAndCityApi')}
-      >
-        <Text style={styles.buttonText}>Ser um companheiro</Text>
-      </TouchableOpacity>
     </View>
   );
 }
@@ -59,6 +78,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
     height: '100%',
+    padding: 20,
   },
   text: {
     width: '80%',
@@ -68,4 +88,4 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = Home;
+export default Home;

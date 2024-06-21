@@ -7,6 +7,7 @@ import { isValidEmail, isValidObjField, updateError } from '../utils/methods'
 import FormContainer from './FormContainer'
 import FormInput from './FormInput'
 import FormSubmitButton from './FormSubmitButton'
+import StyledButton from './buttons/Button'
 // import React, { useContext } from 'react';
 
 // import { UserContext } from '../api/UserContext'
@@ -91,7 +92,10 @@ const LoginForm = () => {
         autoCapitalize='none'
         secureTextEntry
       />
-      <FormSubmitButton onPress={submitForm} title='Login' submitting={false} />
+      <StyledButton
+        backgroundColor={'#0094FF'}
+        height={50}
+       onPress={submitForm} title='Login' submitting={false} />
     </FormContainer>
   )
 }
