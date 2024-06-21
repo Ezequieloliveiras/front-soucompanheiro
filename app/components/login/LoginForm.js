@@ -1,23 +1,17 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text } from 'react-native'
-import signIn from '../api/user'
+import signIn from '../../api/user'
 
-import { useLogin } from '../context/LoginProvider'
-import { isValidEmail, isValidObjField, updateError } from '../utils/methods'
-import FormContainer from './FormContainer'
-import FormInput from './FormInput'
-import FormSubmitButton from './FormSubmitButton'
-import StyledButton from './buttons/Button'
-// import React, { useContext } from 'react';
+import { useLogin } from '../../context/LoginProvider'
+import { isValidEmail, isValidObjField, updateError } from '../../utils/methods'
+import FormContainer from '../registrationForm/FormContainer'
+import FormInput from '../registrationForm/FormInput'
+import StyledButton from '../buttons/Button'
 
-// import { UserContext } from '../api/UserContext'
 
 const LoginForm = () => {
   const { setIsLoggedIn, setProfile, setLoginPending } = useLogin()
   const [userInfo, setUserInfo] = useState({ email: '', password: '', })
-
-  // const { userId, updateUserId } = useContext(UserContext);
-
 
   const [error, setError] = useState('')
 

@@ -1,8 +1,8 @@
 // essas rotas são as rotas que ficam no interior do app após o login só sim você terá acesso a elas.
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import Home from './components/Home'
-import UserList from './components/UsersList.js'
+import Home from './components/pageInitial/Home.js'
+import UserList from './components/user/UsersList.js'
 import StatesAndCityApi from './components/StatesAndCityApi.js'
 
 import { signOut } from './api/user'

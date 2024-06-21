@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
-import * as ImagePicker from 'expo-image-picker'; // Importação corrigida
-import client from '../api/client';
-import { StackActions } from '@react-navigation/native'; // Importação corrigida
-import UploadProgress from './UploadProgress';
+import { useState } from 'react'
+import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native'
+import { StackActions } from '@react-navigation/native' // Importação corrigida
+import client from '../api/client'
+import UploadProgress from '../partials/UploadProgress'
+import * as ImagePicker from 'expo-image-picker' // Importação corrigida
 
 const ImageUpload = ({ route, navigation }) => {
-  const [image, setImage] = useState(null);
-  const [progress, setProgress] = useState(0);
-  const { token } = route.params;
+  const [image, setImage] = useState(null)
+  const [progress, setProgress] = useState(0)
+  const { token } = route.params
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -16,22 +16,22 @@ const ImageUpload = ({ route, navigation }) => {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-    });
+    })
 
     if (!result.canceled && result.assets.length > 0) {
-      setImage(result.assets[0].uri);
+      setImage(result.assets[0].uri)
     }
-  };
+  }
 
   const uploadProfileImage = async () => {
-    if (!image) return;
+    if (!image) return
 
-    const formData = new FormData();
+    const formData = new FormData()
     formData.append('profile', {
       uri: image,
       name: 'profile.jpg',
       type: 'image/jpeg',
-    });
+    })
 
     try {
       const res = await client.post('/upload-profile', formData, {
@@ -41,30 +41,30 @@ const ImageUpload = ({ route, navigation }) => {
           'Authorization': `JWT ${token}`,
         },
         onUploadProgress: (progressEvent) => {
-          const { loaded, total } = progressEvent;
-          setProgress((loaded / total) * 100);
+          const { loaded, total } = progressEvent
+          setProgress((loaded / total) * 100)
         },
-      });
+      })
 
       if (res.data.success) {
-        navigation.dispatch(StackActions.replace('AppForm'));
+        navigation.dispatch(StackActions.replace('AppForm'))
       } else {
 
       }
     } catch (error) {
       if (error.response) {
         // A resposta foi recebida, mas o servidor respondeu com um status de erro
-        console.log('Erro na resposta do servidor:', error.response.data);
+        console.log('Erro na resposta do servidor:', error.response.data)
       } else if (error.request) {
         // A requisição foi feita, mas nenhuma resposta foi recebida
-        console.log('Erro na requisição:', error.request);
+        console.log('Erro na requisição:', error.request)
       } else {
         // Algo aconteceu na configuração da requisição que provocou o erro
-        console.log('Erro:', error.message);
+        console.log('Erro:', error.message)
       }
-      console.log('Configuração do erro:', error.config);
+      console.log('Configuração do erro:', error.config)
     }
-  };
+  }
 
   return (
     <>
@@ -90,8 +90,8 @@ const ImageUpload = ({ route, navigation }) => {
 
       {progress > 0 && <UploadProgress process={progress} />}
     </>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -136,6 +136,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'green',
     color: '#fff',
   },
-});
+})
 
-export default ImageUpload; // Usar export default em vez de module.exports
+export default ImageUpload // Usar export default em vez de module.exports

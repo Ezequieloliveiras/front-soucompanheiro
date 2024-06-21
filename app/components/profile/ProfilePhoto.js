@@ -1,17 +1,13 @@
-import { TouchableOpacity, Text, StyleSheet, Image, View } from 'react-native'
+import { Text, StyleSheet, Image } from 'react-native'
 import { useLogin } from '../../context/LoginProvider'
 
-const CustomButton = ({ title, onPress, backgroundColor, textColor, style, width, height, padding }) => {
-    const { setIsLoggedIn, profile, setLoginPending } = useLogin()
+const CustomButton = () => {
+    const { profile } = useLogin()
 
 
     return (
-        <TouchableOpacity
-            onPress={onPress}
-            style={[styles.button, { backgroundColor }, { width }, { height }, { padding }, style]}
-        >
-            <View style={{ margin:10}}>
-                 <Image
+        <>
+            <Image
                 source={{
                     uri:
                         profile.avatar ||
@@ -19,14 +15,7 @@ const CustomButton = ({ title, onPress, backgroundColor, textColor, style, width
                 }}
                 style={{ width: 60, height: 60, borderRadius: 30 }}
             />
-            </View>
-
-            <View style={{ height: '100%', marginHorizontal:'auto'}}>
-            <Text style={[styles.buttonText, { color: textColor },]} >{title}</Text>
-            </View>
-           
-           
-        </TouchableOpacity>
+        </>
     )
 }
 

@@ -10,9 +10,9 @@ import {
 import FormHeader from './FormHeader'
 import FormSelectorBtn from './FormSelectorBtn'
 import SignupForm from './SignupForm'
-import LoginForm from './LoginForm'
-import AppLoader from './AppLoader'
-import { useLogin } from '../context/LoginProvider'
+import LoginForm from '../login/LoginForm'
+import AppLoader from '../../partials/AppLoader'
+import { useLogin } from '../../context/LoginProvider'
 
 const { width } = Dimensions.get('window')
 

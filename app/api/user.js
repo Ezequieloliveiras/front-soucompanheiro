@@ -20,12 +20,6 @@ const signIn = async (email, password) => {
 }
 
 
-
-
-
-
-
-
 export const signOut = async () => {
     try {
         const token = await AsyncStorage.getItem('token')

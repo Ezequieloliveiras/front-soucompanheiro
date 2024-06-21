@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
-import { isValidEmail, isValidObjField, updateError } from '../utils/methods'
+import { isValidEmail, isValidObjField, updateError } from '../../utils/methods'
 import { StyleSheet, Text } from 'react-native'
 import { StackActions, useNavigation } from '@react-navigation/native'
 import { Formik } from 'formik'
-import { useLogin } from '../context/LoginProvider'
-import * as Yup from 'yup'
-import client from '../api/client'
+import { useLogin } from '../../context/LoginProvider'
+import client from '../../api/client'
 import FormContainer from './FormContainer'
 import FormInput from './FormInput'
 import FormSubmitButton from './FormSubmitButton'
-import signIn from '../api/user'
+import signIn from '../../api/user'
+import * as Yup from 'yup'
 
 
 const SignupForm = () => {

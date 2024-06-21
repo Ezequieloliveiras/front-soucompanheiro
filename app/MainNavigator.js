@@ -1,10 +1,9 @@
 
 // aqui ficam os componentes externos como cadastro e upload de imagens
-
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useLogin } from './context/LoginProvider'
-import AppForm from './components/AppForm'
-import ImageUpload from './components/ImageUpload'
+import AppForm from './components/registrationForm/AppForm'
+import ImageUpload from './partials/ImageUpload'
 import InternalNavigator from './InternalNavigator' // Note: Check spelling of 'Navigator'
 
 
