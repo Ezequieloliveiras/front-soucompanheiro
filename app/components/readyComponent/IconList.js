@@ -1,39 +1,49 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
-import { Picker, TextInput, List } from 'react-native-paper';
-import axios from 'axios';
+import {
+    useState,
+    useEffect
+} from 'react'
+import {
+    View,
+    Text
+} from 'react-native'
+import {
+    Picker,
+    TextInput,
+    List
+} from 'react-native-paper'
+import axios from 'axios'
 
 const StatesAndCityAPI = () => {
-    const [estados, setEstados] = useState([]);
-    const [estadoSelecionado, setEstadoSelecionado] = useState(null);
-    const [cidadesDoEstado, setCidadesDoEstado] = useState([]);
+    const [estados, setEstados] = useState([])
+    const [estadoSelecionado, setEstadoSelecionado] = useState(null)
+    const [cidadesDoEstado, setCidadesDoEstado] = useState([])
 
     useEffect(() => {
-        fetchIbgeUF();
-    }, []);
+        fetchIbgeUF()
+    }, [])
 
     const fetchIbgeUF = async () => {
         try {
-            const res = await axios.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados');
-            setEstados(res.data);
+            const res = await axios.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
+            setEstados(res.data)
         } catch (error) {
-            console.log('Erro ao buscar estados:', error.message);
+            console.log('Erro ao buscar estados:', error.message)
         }
-    };
+    }
 
     const fetchCidades = async (estadoSigla) => {
         try {
-            const res = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estadoSigla}/municipios`);
-            setCidadesDoEstado(res.data);
+            const res = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estadoSigla}/municipios`)
+            setCidadesDoEstado(res.data)
         } catch (error) {
-            console.log('Erro ao buscar cidades:', error.message);
+            console.log('Erro ao buscar cidades:', error.message)
         }
-    };
+    }
 
     const handleEstadoChange = (estado) => {
-        setEstadoSelecionado(estado);
-        fetchCidades(estado.sigla);
-    };
+        setEstadoSelecionado(estado)
+        fetchCidades(estado.sigla)
+    }
 
     return (
         <View style={{ flex: 1, padding: 20 }}>
@@ -72,14 +82,14 @@ const StatesAndCityAPI = () => {
                             <List.Item
                                 key={cidade.id}
                                 title={cidade.nome}
-                                onPress={() => {}}
+                                onPress={() => { }}
                             />
                         ))}
                     </List.Accordion>
                 </View>
             )}
         </View>
-    );
-};
+    )
+}
 
-export default StatesAndCityAPI;
+export default StatesAndCityAPI

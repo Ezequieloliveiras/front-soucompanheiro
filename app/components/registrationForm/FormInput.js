@@ -1,4 +1,9 @@
-import { View, StyleSheet, Text, TextInput } from 'react-native'
+import {
+  View,
+  StyleSheet,
+  Text,
+  TextInput
+} from 'react-native'
 
 const FormInput = ({ placeholder, label, error, ...props }) => {
   return (
@@ -22,7 +27,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontWeight: 'bold',
-    color:'#0094FF'
+    color: '#0094FF'
   },
   errorText: {
     color: 'red',

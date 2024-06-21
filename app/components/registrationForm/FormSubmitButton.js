@@ -1,9 +1,13 @@
-import { StyleSheet, TouchableOpacity, Text } from 'react-native'
+import {
+  StyleSheet,
+  TouchableOpacity,
+  Text
+} from 'react-native'
 
 const FormSubmitButton = ({ title, submitting, onPress }) => {
   const backgroundColor = submitting
     ? '#0094FF'
-    : '#0094FF';
+    : '#0094FF'
 
   return (
     <TouchableOpacity
@@ -12,8 +16,8 @@ const FormSubmitButton = ({ title, submitting, onPress }) => {
     >
       <Text style={styles.text}>{title}</Text>
     </TouchableOpacity>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -26,6 +30,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#fff',
   },
-});
+})
 
-module.exports = FormSubmitButton;
+module.exports = FormSubmitButton

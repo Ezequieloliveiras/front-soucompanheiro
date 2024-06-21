@@ -1,13 +1,12 @@
-import React, { createContext, useState } from "react";
+import {
+    createContext,
+    useState
+} from "react";
 
 // Criação do contexto
 export const UserContext = createContext()
-
-// provedor do contexto
 export const UserProvider = ({ children }) => {
-
     const [userId, setUserId] = useState(null)
-
     return (
         <UserContext.Provider value={{ userId, setUserId }}>
             {children}

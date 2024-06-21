@@ -1,13 +1,14 @@
 // essas rotas são as rotas que ficam no interior do app após o login só sim você terá acesso a elas.
 
+import { signOut } from './api/user'
+import { useLogin } from './context/LoginProvider'
+import { TouchableOpacity, Text, Image } from 'react-native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+
 import Home from './components/pageHome/Home.js'
 import UserList from './components/user/UsersList.js'
 import StatesAndCityApi from './components/StatesAndCityApi.js'
 
-import { signOut } from './api/user'
-import { useLogin } from './context/LoginProvider'
-import { TouchableOpacity, Text, Image } from 'react-native'
 
 const Stack = createNativeStackNavigator()
 
@@ -34,7 +35,10 @@ const InternalNavigator = () => {
                     headerRight: () => (
                         <>
                             <TouchableOpacity onPress={handleLogout}>
-                                <Text style={{ marginRight: 10, color: 'black' }}>Logout</Text>
+                                <Text style={{
+                                    marginRight: 10,
+                                    color: 'black'
+                                }}>Sair</Text>
                             </TouchableOpacity>
                             <Image
                                 source={{

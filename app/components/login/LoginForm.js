@@ -1,20 +1,20 @@
-import React, { useState } from 'react'
 import { StyleSheet, Text } from 'react-native'
-import signIn from '../../api/user'
-
+import { useState } from 'react'
+import {
+  isValidEmail,
+  isValidObjField,
+  updateError
+} from '../../utils/methods'
 import { useLogin } from '../../context/LoginProvider'
-import { isValidEmail, isValidObjField, updateError } from '../../utils/methods'
+import signIn from '../../api/user'
 import FormContainer from '../registrationForm/FormContainer'
 import FormInput from '../registrationForm/FormInput'
 import StyledButton from '../buttons/Button'
 
-
 const LoginForm = () => {
   const { setIsLoggedIn, setProfile, setLoginPending } = useLogin()
   const [userInfo, setUserInfo] = useState({ email: '', password: '', })
-
   const [error, setError] = useState('')
-
   const { email, password } = userInfo
 
   const handleOnChangeText = (value, fieldName) => {
@@ -52,7 +52,7 @@ const LoginForm = () => {
           setProfile(user)
           setIsLoggedIn(true)
         } else {
-          updateError('Login failed. Please check your credentials.', setError)
+          updateError('Falha no login. Verifique suas credenciais.', setError)
         }
       } catch (error) {
         console.log(error)
@@ -67,7 +67,7 @@ const LoginForm = () => {
   return (
     <FormContainer>
       {error ? (
-        <Text style={{ color: 'red', fontSize: 18, textAlign: 'center' }}>
+        <Text style={styles.text}>
           {error}
         </Text>
       ) : null}
@@ -89,11 +89,17 @@ const LoginForm = () => {
       <StyledButton
         backgroundColor={'#0094FF'}
         height={50}
-       onPress={submitForm} title='Login' submitting={false} />
+        onPress={submitForm} title='Login' submitting={false} />
     </FormContainer>
   )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  text: {
+    color: 'red',
+    fontSize: 18,
+    textAlign: 'center'
+  }
+})
 
 export default LoginForm

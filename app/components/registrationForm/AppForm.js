@@ -1,4 +1,5 @@
-import React, { useRef } from 'react'
+import { useRef } from 'react'
+import { useLogin } from '../../context/LoginProvider'
 import {
   ScrollView,
   StyleSheet,
@@ -12,7 +13,6 @@ import FormSelectorBtn from './FormSelectorBtn'
 import SignupForm from './SignupForm'
 import LoginForm from '../login/LoginForm'
 import AppLoader from '../../partials/AppLoader'
-import { useLogin } from '../../context/LoginProvider'
 
 const { width } = Dimensions.get('window')
 
@@ -29,7 +29,7 @@ export default function AppForm({ navigation }) {
 
   const leftHeaderTranslateX = animation.interpolate({
     inputRange: [50, width],
-    outputRange: [0,56],
+    outputRange: [0, 56],
   })
   const rightHeaderTranslateY = animation.interpolate({
     inputRange: [0, width],
@@ -38,7 +38,7 @@ export default function AppForm({ navigation }) {
   const loginColorInterpolate = animation.interpolate({
     inputRange: [0, width],
     outputRange: ['#0094FF', 'rgba(27,27,51,0.4)'],
-    
+
   })
   const signupColorInterpolate = animation.interpolate({
     inputRange: [0, width],
@@ -48,7 +48,7 @@ export default function AppForm({ navigation }) {
   return (
     <>
 
-      <View style={{ flex: 1, paddingTop: 120}}>
+      <View style={{ flex: 1, paddingTop: 120 }}>
         <View style={{ height: 80 }}>
           <FormHeader
             leftHeading='Bem-vindo'

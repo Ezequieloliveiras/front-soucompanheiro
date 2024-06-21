@@ -2,7 +2,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import client from "./client"
 
 const signIn = async (email, password) => {
-
     try {
         const signInRes = await client.post('/sign-in', {
             email,
@@ -11,15 +10,12 @@ const signIn = async (email, password) => {
         if (signInRes.data.success) {
             const token = signInRes.data.token
             await AsyncStorage.setItem('token', token)
-
         }
         return signInRes
     } catch (error) {
-        console.log('error inside signin method.', error.message)
+        console.log('erro dentro do método de login.', error.message)
     }
 }
-
-
 export const signOut = async () => {
     try {
         const token = await AsyncStorage.getItem('token')
@@ -36,7 +32,7 @@ export const signOut = async () => {
         }
         return false
     } catch (error) {
-        console.log('error inside signout method.', error.message)
+        console.log('erro dentro do método de saída.', error.message)
         return false
     }
 }

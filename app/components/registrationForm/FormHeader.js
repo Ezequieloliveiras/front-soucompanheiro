@@ -1,4 +1,9 @@
-import { View, StyleSheet, Text, Animated } from 'react-native'
+import {
+  View,
+  StyleSheet,
+  Text,
+  Animated
+} from 'react-native'
 
 const FormHeader = ({
   leftHeading,

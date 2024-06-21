@@ -12,8 +12,8 @@ const FormSelectorBtn = ({ title, backgroundColor, style, onPress }) => {
         <Text style={styles.title}>{title}</Text>
       </Animated.View>
     </TouchableWithoutFeedback>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -27,6 +27,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
   },
-});
+})
 
-module.exports = FormSelectorBtn;
+module.exports = FormSelectorBtn

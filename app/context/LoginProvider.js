@@ -1,5 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import React, { createContext, useContext, useState, useEffect } from 'react'
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect
+} from 'react'
 import client from '../api/client'
 
 const LoginContext = createContext()
@@ -40,7 +45,14 @@ const LoginProvider = ({ children }) => {
   }, [])
 
   return (
-    <LoginContext.Provider value={{ isLoggedIn, loginPending, setLoginPending, setIsLoggedIn, profile, setProfile }}>
+    <LoginContext.Provider value={{
+      isLoggedIn,
+      loginPending,
+      setLoginPending,
+      setIsLoggedIn,
+      profile,
+      setProfile
+    }}>
       {children}
     </LoginContext.Provider>
   )
@@ -49,7 +61,7 @@ const LoginProvider = ({ children }) => {
 export const useLogin = () => {
   const context = useContext(LoginContext)
   if (context === undefined) {
-    throw new Error('useLogin must be used within a LoginProvider')
+    throw new Error('useLogin deve ser usado dentro de um LoginProvider')
   }
   return context
 }

@@ -1,9 +1,15 @@
 import { useState } from 'react'
-import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native'
 import { StackActions } from '@react-navigation/native' // Importação corrigida
+import { View,
+  StyleSheet,
+  Text, 
+  TouchableOpacity,
+  Image 
+} from 'react-native'
+
+import * as ImagePicker from 'expo-image-picker' // Importação corrigida
 import client from '../api/client'
 import UploadProgress from '../partials/UploadProgress'
-import * as ImagePicker from 'expo-image-picker' // Importação corrigida
 
 const ImageUpload = ({ route, navigation }) => {
   const [image, setImage] = useState(null)
@@ -22,7 +28,7 @@ const ImageUpload = ({ route, navigation }) => {
       setImage(result.assets[0].uri)
     }
   }
-
+  
   const uploadProfileImage = async () => {
     if (!image) return
 
@@ -32,7 +38,6 @@ const ImageUpload = ({ route, navigation }) => {
       name: 'profile.jpg',
       type: 'image/jpeg',
     })
-
     try {
       const res = await client.post('/upload-profile', formData, {
         headers: {
@@ -45,12 +50,9 @@ const ImageUpload = ({ route, navigation }) => {
           setProgress((loaded / total) * 100)
         },
       })
-
       if (res.data.success) {
         navigation.dispatch(StackActions.replace('AppForm'))
-      } else {
-
-      }
+      } 
     } catch (error) {
       if (error.response) {
         // A resposta foi recebida, mas o servidor respondeu com um status de erro

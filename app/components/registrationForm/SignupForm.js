@@ -1,42 +1,45 @@
-import React, { useState } from 'react'
-import { isValidEmail, isValidObjField, updateError } from '../../utils/methods'
+import { useState } from 'react'
 import { StyleSheet, Text } from 'react-native'
 import { StackActions, useNavigation } from '@react-navigation/native'
 import { Formik } from 'formik'
 import { useLogin } from '../../context/LoginProvider'
+import {
+  isValidEmail,
+  isValidObjField,
+  updateError
+} from '../../utils/methods'
+
+import * as Yup from 'yup'
 import client from '../../api/client'
 import FormContainer from './FormContainer'
 import FormInput from './FormInput'
 import FormSubmitButton from './FormSubmitButton'
 import signIn from '../../api/user'
-import * as Yup from 'yup'
-
 
 const SignupForm = () => {
   const navigation = useNavigation()
   const [error, setError] = useState('')
-
   const { setLoginPending } = useLogin()
 
   const isValidForm = (userInfo, setError) => {
     if (!isValidObjField(userInfo)) {
-      updateError('Required all fields!', setError)
+      updateError('Todos os campos obrigatórios!', setError)
       return false
     }
     if (!userInfo.fullname.trim() || userInfo.fullname.length < 3) {
-      updateError('Invalid name!', setError)
+      updateError('Nome inválido!', setError)
       return false
     }
     if (!isValidEmail(userInfo.email)) {
-      updateError('Invalid email!', setError)
+      updateError('Email! inválido', setError)
       return false
     }
     if (!userInfo.password.trim() || userInfo.password.length < 8) {
-      updateError('Password is too short!', setError)
+      updateError('A senha é muito curta!', setError)
       return false
     }
     if (userInfo.password !== userInfo.confirmPassword) {
-      updateError('Password does not match!', setError)
+      updateError('A senha não corresponde!', setError)
       return false
     }
     return true
@@ -45,16 +48,16 @@ const SignupForm = () => {
   const validationSchema = Yup.object().shape({
     fullname: Yup.string()
       .trim()
-      .min(3, 'Invalid name!')
-      .required('Name is required!'),
-    email: Yup.string().email('Invalid email!').required('Email is required!'),
+      .min(3, 'Nome inválido!')
+      .required('O nome é obrigatório!'),
+    email: Yup.string().email('e-mail inválido!').required('O e-mail é obrigatório!'),
     password: Yup.string()
       .trim()
-      .min(8, 'Password is too short!')
-      .required('Password is required!'),
+      .min(8, 'A senha é muito curta!')
+      .required('Senha requerida!'),
     confirmPassword: Yup.string().oneOf(
-      [Yup.ref('password'), null],
-      'Password does not match!'
+      [Yup.ref('senha'), null],
+      'Senha não corresponde!'
     ),
   })
 
@@ -76,7 +79,7 @@ const SignupForm = () => {
         }
       }
     } catch (error) {
-      updateError('Failed to sign up. Please try again later.', setError)
+      updateError('Falha ao se inscrever. Por favor, tente novamente mais tarde.', setError)
     } finally {
       formikActions.resetForm()
       formikActions.setSubmitting(false)
@@ -93,7 +96,7 @@ const SignupForm = () => {
           password: '',
           confirmPassword: '',
         }}
-        
+
         validationSchema={validationSchema}
         onSubmit={(values, formikActions) => {
           if (isValidForm(values, setError)) {
@@ -111,7 +114,7 @@ const SignupForm = () => {
           handleSubmit,
         }) => (
           <>
-          
+
             <FormInput
               value={values.fullname}
               error={touched.fullname && errors.fullname ? errors.fullname : null}
@@ -154,7 +157,7 @@ const SignupForm = () => {
               placeholder='********'
             />
             <FormSubmitButton
-            style={styles.button}
+              style={styles.button}
               submitting={isSubmitting}
               onPress={handleSubmit}
               title='Sign up'
@@ -167,7 +170,7 @@ const SignupForm = () => {
           {error}
         </Text>
       ) : null}
-     
+
     </FormContainer>
   )
 }

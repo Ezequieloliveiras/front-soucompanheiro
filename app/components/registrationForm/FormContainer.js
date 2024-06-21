@@ -1,4 +1,9 @@
-import { StyleSheet, Dimensions, KeyboardAvoidingView, Platform } from 'react-native'
+import {
+    StyleSheet,
+    Dimensions,
+    KeyboardAvoidingView,
+    Platform
+} from 'react-native'
 
 const FormContainer = ({ children }) => {
     return (
