@@ -9,7 +9,6 @@ import Home from './components/pageHome/Home.js'
 import UserList from './components/user/UsersList.js'
 import StatesAndCityApi from './components/StatesAndCityApi.js'
 
-
 const Stack = createNativeStackNavigator()
 
 const InternalNavigator = () => {
@@ -29,7 +28,7 @@ const InternalNavigator = () => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name="Home"
+                name="Início"
                 component={Home}
                 options={() => ({
                     headerRight: () => (

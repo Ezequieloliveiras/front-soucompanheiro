@@ -11,6 +11,7 @@ const data = [
     local: "Ibatiba-ES",
     quantidadeVagas: 5,
     inscritos: 3,
+    tag: 'inscrito',
     descrição: "Estamos em busca de um pedreiro experiente que já tenha trabalhado no campo. O candidato deve ser maior de idade e possuir habilidades práticas em construção, reparo e manutenção de estruturas. É essencial ter conhecimento em técnicas de alvenaria, leitura de plantas e segurança no trabalho. Procuramos alguém comprometido, com boa capacidade de trabalho em equipe e disposição para enfrentar os desafios do dia a dia na construção civil rural."
   },
   {
