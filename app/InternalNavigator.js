@@ -28,7 +28,8 @@ const InternalNavigator = () => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name="Início"
+                name="SouCompanheiro"
+                color = 'red'
                 component={Home}
                 options={() => ({
                     headerRight: () => (

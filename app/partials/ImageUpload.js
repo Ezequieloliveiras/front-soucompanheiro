@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { StackActions } from '@react-navigation/native' // Importação corrigida
-import { View,
+import {
+  View,
   StyleSheet,
-  Text, 
+  Text,
   TouchableOpacity,
-  Image 
+  Image
 } from 'react-native'
 
 import * as ImagePicker from 'expo-image-picker' // Importação corrigida
@@ -28,7 +29,7 @@ const ImageUpload = ({ route, navigation }) => {
       setImage(result.assets[0].uri)
     }
   }
-  
+
   const uploadProfileImage = async () => {
     if (!image) return
 
@@ -52,7 +53,7 @@ const ImageUpload = ({ route, navigation }) => {
       })
       if (res.data.success) {
         navigation.dispatch(StackActions.replace('AppForm'))
-      } 
+      }
     } catch (error) {
       if (error.response) {
         // A resposta foi recebida, mas o servidor respondeu com um status de erro
@@ -80,7 +81,13 @@ const ImageUpload = ({ route, navigation }) => {
             )}
           </TouchableOpacity>
 
-          <Text style={styles.textSkip}>Pular</Text>
+
+          {!image && (
+            <TouchableOpacity onPress={() => navigation.dispatch(StackActions.replace('AppForm'))}>
+              <Text style={styles.textSkip}>Pular</Text>
+            </TouchableOpacity>
+          )}
+
 
           {image && (
             <TouchableOpacity onPress={uploadProfileImage}>

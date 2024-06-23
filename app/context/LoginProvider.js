@@ -24,6 +24,7 @@ const LoginProvider = ({ children }) => {
             Authorization: `JWT ${token}`
           }
         })
+        console.log(res.data.profile)
 
         if (res.data.success) {
           setProfile(res.data.profile)

@@ -56,7 +56,7 @@ const SignupForm = () => {
       .min(8, 'A senha é muito curta!')
       .required('Senha requerida!'),
     confirmPassword: Yup.string().oneOf(
-      [Yup.ref('senha'), null],
+      [Yup.ref('password'), null],
       'Senha não corresponde!'
     ),
   })

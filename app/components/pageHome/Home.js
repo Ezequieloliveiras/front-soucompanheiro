@@ -1,14 +1,13 @@
 import {
-  Button,
   StyleSheet,
-  TouchableOpacity,
   View,
 } from 'react-native'
 
 import { useState } from 'react'
-import StatesAndCityAPI from '../StatesAndCityApi'
 import UsersList from '../user/UsersList'
 import StyledButton from '../buttons/Button'
+
+import Testedeapi from '../testedeapi'
 const Home = () => {
   const [showFirstComponent, setShowFirstComponent] = useState(true)
   const [text, setText] = useState('Minhas Inscricões')
@@ -35,7 +34,7 @@ const Home = () => {
       {showFirstComponent ? (
         <UsersList />
       ) : (
-        <StatesAndCityAPI />
+        <Testedeapi />
       )}
       <View style={{
         marginTop: 10,
