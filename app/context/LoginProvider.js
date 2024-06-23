@@ -27,6 +27,7 @@ const LoginProvider = ({ children }) => {
         console.log(res.data.profile)
 
         if (res.data.success) {
+
           setProfile(res.data.profile)
           setIsLoggedIn(true)
         } else {

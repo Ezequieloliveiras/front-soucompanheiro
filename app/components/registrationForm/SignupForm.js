@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { StyleSheet, Text } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
+import { Picker } from '@react-native-picker/picker'
 import { StackActions, useNavigation } from '@react-navigation/native'
 import { Formik } from 'formik'
 import { useLogin } from '../../context/LoginProvider'
@@ -59,11 +60,13 @@ const SignupForm = () => {
       [Yup.ref('password'), null],
       'Senha não corresponde!'
     ),
+    option: Yup.string().required('A opção é obrigatório!')
   })
 
   const signUp = async (values, formikActions) => {
     setLoginPending(true)
     try {
+      console.log('Values being sent:', values); // Log the values
       const res = await client.post('/create-user', {
         ...values,
       })
@@ -95,8 +98,8 @@ const SignupForm = () => {
           email: '',
           password: '',
           confirmPassword: '',
+          option: ''
         }}
-
         validationSchema={validationSchema}
         onSubmit={(values, formikActions) => {
           if (isValidForm(values, setError)) {
@@ -112,9 +115,9 @@ const SignupForm = () => {
           handleChange,
           handleBlur,
           handleSubmit,
+          setFieldValue
         }) => (
           <>
-
             <FormInput
               value={values.fullname}
               error={touched.fullname && errors.fullname ? errors.fullname : null}
@@ -156,6 +159,20 @@ const SignupForm = () => {
               label='Confirme a senha'
               placeholder='********'
             />
+            <View style={styles.pickerContainer}>
+              <Picker
+                selectedValue={values.option}
+                onValueChange={(itemValue) => setFieldValue('option', itemValue)}
+                style={styles.picker}
+              >
+                <Picker.Item label="Selecione o que procura" value="" />
+                <Picker.Item label="Preciso de um trabalho" value="PrecisoDeTrabalho" />
+                <Picker.Item label="Preciso de um companheiro" value="PrecisoDeCompanheiro" />
+              </Picker>
+              {touched.option && errors.option && (
+                <Text style={styles.errorText}>{errors.option}</Text>
+              )}
+            </View>
             <FormSubmitButton
               style={styles.button}
               submitting={isSubmitting}
@@ -170,7 +187,6 @@ const SignupForm = () => {
           {error}
         </Text>
       ) : null}
-
     </FormContainer>
   )
 }
@@ -178,8 +194,19 @@ const SignupForm = () => {
 const styles = StyleSheet.create({
   button: {
     marginBottom: 50,
+  },
+  pickerContainer: {
+    marginVertical: 10,
+  },
+  picker: {
+    height: 50,
+    width: '100%',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 12,
+    marginTop: 5,
   }
-
 })
 
 export default SignupForm
