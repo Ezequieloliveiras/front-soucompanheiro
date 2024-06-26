@@ -9,14 +9,15 @@ const CustomButton = ({
   width,
   height,
   padding,
-  marginTop
+  marginTop,
+  marginBottom
 }) => {
   return (
     <TouchableOpacity
       onPress={onPress}
       style={[
         styles.button,
-        { backgroundColor, width, height, padding, marginTop },
+        { backgroundColor, width, height, padding, marginTop, marginBottom },
         style
       ]}
     >
@@ -31,6 +32,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 5,
+    marginBottom: 10
   },
   buttonText: {
     color: 'white',

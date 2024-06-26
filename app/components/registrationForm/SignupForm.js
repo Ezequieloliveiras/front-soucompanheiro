@@ -165,7 +165,7 @@ const SignupForm = () => {
                 onValueChange={(itemValue) => setFieldValue('option', itemValue)}
                 style={styles.picker}
               >
-                <Picker.Item label="Selecione o que procura" value="" />
+                <Picker.Item label="Selecione o que procura" value="" style={{ color: '#757575' }}/>
                 <Picker.Item label="Preciso de um trabalho" value="PrecisoDeTrabalho" />
                 <Picker.Item label="Preciso de um companheiro" value="PrecisoDeCompanheiro" />
               </Picker>
@@ -196,10 +196,12 @@ const styles = StyleSheet.create({
     marginBottom: 50,
   },
   pickerContainer: {
-    marginVertical: 10,
+    marginBottom: 20,
+    backgroundColor: '#e0e0e0',
+
+    borderRadius: 5,
   },
   picker: {
-    height: 50,
     width: '100%',
   },
   errorText: {

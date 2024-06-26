@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
 import ProfilePhoto from '../profile/ProfilePhoto'
 import StyledButton from '../buttons/Button'
 
@@ -61,8 +61,7 @@ const data = [
   }
 ]
 
-
-const FlatListBasics = () => {
+const FlatListBasics = ({ navigation }) => {
   const [visibleItems, setVisibleItems] = useState({})
 
   const handleClick = (id) => { // id sendo o identificador do item clicado.
@@ -73,43 +72,49 @@ const FlatListBasics = () => {
   }
 
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.header}>Vagas Abertas</Text>
-      {data.map((item) => (
-        <TouchableOpacity
-          onPress={() => handleClick(item.id)}
-          key={item.id}
-          style={styles.touchableItem}
-        >
-          <View style={styles.itemView}>
-            <ProfilePhoto />
-            <View style={styles.itemInfo}>
-              <Text style={styles.vagaText}>Função: {item.vaga}</Text>
-              <View style={styles.details}>
-                <Text style={styles.greyText}>Divulgador: {item.divulgador}</Text>
-                <Text style={styles.greyText}>Local: {item.local}</Text>
+    <>
+      <View style={{ height: '100%', display: 'flex', alignItems: 'center' }}>
+
+        <ScrollView style={styles.container}>
+          {data.map((item) => (
+            <TouchableOpacity
+              onPress={() => handleClick(item.id)}
+              key={item.id}
+              style={styles.touchableItem}
+            >
+              <View style={styles.itemView}>
+                <ProfilePhoto />
+                <View style={styles.itemInfo}>
+                  <Text style={styles.vagaText}>Função: {item.vaga}</Text>
+                  <View style={styles.details}>
+                    <Text style={styles.greyText}>Divulgador: {item.divulgador}</Text>
+                    <Text style={styles.greyText}>Local: {item.local}</Text>
+                  </View>
+                  <Text style={styles.greenText}>{item.quantidadeVagas} vagas disponíveis</Text>
+                  <Text style={styles.greyText}>{item.inscritos} inscritos</Text>
+                </View>
               </View>
-              <Text style={styles.greenText}>{item.quantidadeVagas} vagas disponíveis</Text>
-              <Text style={styles.greyText}>{item.inscritos} inscritos</Text>
-            </View>
-          </View>
-          <View>
-            {visibleItems[item.id] &&
-              <View style={styles.descriptionView}>
-                <StyledButton
-                  marginTop={15}
-                  title={'Inscrever-se'}
-                  height={30}
-                  backgroundColor={'#0094FF'}
-                  width={110}
-                />
-                <Text style={styles.descriptionText}>{item.descrição}</Text>
+              <View>
+                {visibleItems[item.id] &&
+                  <View style={styles.descriptionView}>
+                    <StyledButton
+                      marginTop={15}
+                      title={'Inscrever-se'}
+                      height={30}
+                      backgroundColor={'#0094FF'}
+                      width={110}
+                    />
+                    <Text style={styles.descriptionText}>{item.descrição}</Text>
+                  </View>
+                }
               </View>
-            }
-          </View>
-        </TouchableOpacity>
-      ))}
-    </ScrollView>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+
+      </View>
+
+    </>
   )
 }
 
@@ -117,13 +122,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  header: {
-    textAlign: 'center',
-    marginBottom: 20,
-    fontSize: 20,
-    color: '#0094FF',
-    fontWeight: 'bold',
-  },
+
   touchableItem: {
     height: 'auto',
     backgroundColor: '#f5f5f5',

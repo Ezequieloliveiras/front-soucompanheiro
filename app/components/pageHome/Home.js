@@ -7,7 +7,7 @@ import { useState } from 'react'
 import UsersList from '../user/UsersList'
 import StyledButton from '../buttons/Button'
 
-import Testedeapi from '../testedeapi'
+import Registrations from '../registrations/Registrations'
 const Home = () => {
   const [showFirstComponent, setShowFirstComponent] = useState(true)
   const [text, setText] = useState('Minhas Inscricões')
@@ -34,7 +34,7 @@ const Home = () => {
       {showFirstComponent ? (
         <UsersList />
       ) : (
-        <Testedeapi />
+        <Registrations />
       )}
       <View style={{
         marginTop: 10,
@@ -44,6 +44,7 @@ const Home = () => {
         justifyContent: 'center',
         alignItems: 'center'
       }}>
+      </View>
         <StyledButton
           title={text}
           onPress={handleClick}
@@ -51,7 +52,6 @@ const Home = () => {
           width={200}
           backgroundColor={'#0094FF'}
         />
-      </View>
 
     </View>
   )
@@ -62,15 +62,14 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     backgroundColor: '#fff',
-    height: '100%',
-    paddingTop: '6%',
+    height: '86%',
+    paddingTop: '3%',
     paddingRight: '5%',
-
     paddingLeft: '5%',
   },
   text: {
     width: '80%',
-    marginTop: 50,
+
     color: 'grey',
     textAlign: 'center',
   },

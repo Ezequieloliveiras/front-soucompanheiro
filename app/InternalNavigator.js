@@ -28,16 +28,23 @@ const InternalNavigator = () => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name="SouCompanheiro"
+                name="Home"
                 color = 'red'
                 component={Home}
                 options={() => ({
+                    statusBarColor: '#0094FF',
+                    headerTintColor: '#fff',
+                    headerTitle: 'Inicío',
+                    headerBackgroundColor: 'primaryColor',
+                    headerStyle: {
+                        backgroundColor: '#0094FF',
+                      }, 
                     headerRight: () => (
                         <>
                             <TouchableOpacity onPress={handleLogout}>
                                 <Text style={{
                                     marginRight: 10,
-                                    color: 'black'
+                                    color: '#fff'
                                 }}>Sair</Text>
                             </TouchableOpacity>
                             <Image

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import ProfilePhoto from './profile/ProfilePhoto'
-import StyledButton from './buttons/Button'
+import ProfilePhoto from '../profile/ProfilePhoto'
+import StyledButton from '../buttons/Button'
 
 const data = [
   {
@@ -62,7 +62,7 @@ const data = [
   }
 ]
 
-const FlatListBasics = () => {
+const FlatListBasics = ({ navigation }) => {
   const [visibleItems, setVisibleItems] = useState({})
 
   const handleClick = (id) => {
@@ -75,60 +75,55 @@ const FlatListBasics = () => {
   const filteredData = data.filter(item => item.tag === 'inscrito')
 
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.header}>Minhas Inscrições</Text>
-      {filteredData.length > 0 ? (
-        filteredData.map((item) => (
-          <TouchableOpacity
-            onPress={() => handleClick(item.id)}
-            key={item.id}
-            style={styles.touchableItem}
-          >
-            <View style={styles.itemView}>
-              <ProfilePhoto />
-              <View style={styles.itemInfo}>
-                <Text style={styles.vagaText}>Função: {item.vaga}</Text>
-                <View style={styles.details}>
-                  <Text style={styles.greyText}>Divulgador: {item.divulgador}</Text>
-                  <Text style={styles.greyText}>Local: {item.local}</Text>
+    <View style={{ height: '100%', display: 'flex', alignItems: 'center' }}>
+      <ScrollView style={styles.container}>
+        {filteredData.length > 0 ? (
+          filteredData.map((item) => (
+            <TouchableOpacity
+              onPress={() => handleClick(item.id)}
+              key={item.id}
+              style={styles.touchableItem}
+            >
+              <View style={styles.itemView}>
+                <ProfilePhoto />
+                <View style={styles.itemInfo}>
+                  <Text style={styles.vagaText}>Função: {item.vaga}</Text>
+                  <View style={styles.details}>
+                    <Text style={styles.greyText}>Divulgador: {item.divulgador}</Text>
+                    <Text style={styles.greyText}>Local: {item.local}</Text>
+                  </View>
+
+                  <Text style={styles.alreadyInscrito}>Já inscrito</Text>
                 </View>
-          
-                <Text style={styles.alreadyInscrito}>Já inscrito</Text>
               </View>
-            </View>
-            <View>
-              {visibleItems[item.id] && (
-                <View style={styles.descriptionView}>
-                  <StyledButton
-                    marginTop={15}
-                    title={'Desistir'}
-                    height={30}
-                    backgroundColor={'red'}
-                    width={110}
-                  />
-                  <Text style={styles.descriptionText}>{item.descrição}</Text>
-                </View>
-              )}
-            </View>
-          </TouchableOpacity>
-        ))
-      ) : (
-        <Text style={styles.errorText}>Nenhuma vaga como "inscrito" disponível.</Text>
-      )}
-    </ScrollView>
+              <View>
+                {visibleItems[item.id] && (
+                  <View style={styles.descriptionView}>
+                    <StyledButton
+                      marginTop={15}
+                      title={'Desistir'}
+                      height={30}
+                      backgroundColor={'red'}
+                      width={110}
+                    />
+                    <Text style={styles.descriptionText}>{item.descrição}</Text>
+                  </View>
+                )}
+              </View>
+            </TouchableOpacity>
+          ))
+        ) : (
+          <Text style={styles.errorText}>Nenhuma vaga como "inscrito" disponível.</Text>
+        )}
+
+      </ScrollView>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  header: {
-    textAlign: 'center',
-    marginBottom: 20,
-    fontSize: 20,
-    color: '#0094FF',
-    fontWeight: 'bold',
   },
   touchableItem: {
     height: 'auto',
